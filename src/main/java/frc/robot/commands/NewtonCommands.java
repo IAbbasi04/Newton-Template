@@ -32,4 +32,14 @@ public final class NewtonCommands {
             swerve.drive(processed, DriveModes.AUTOMATIC);
         });
     }
+
+    /**
+     * Spins the rollers at the desired RPMs
+     * @return
+     */
+    public static Command setIntakeVelocityCommand(double topVelocityRPM, double bottomVelocityRPM) {
+        return intake.run(() -> {
+            intake.setVelocity(topVelocityRPM, bottomVelocityRPM);
+        });
+    }
 }

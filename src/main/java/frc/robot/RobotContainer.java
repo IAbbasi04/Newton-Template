@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 public class RobotContainer {
     // The robot's subsystems
     public static SwerveSubsystem swerve;
+    public static IntakeSubsystem intake;
 
     private boolean logToShuffleboard = false;
 
@@ -26,6 +27,7 @@ public class RobotContainer {
      */
     public RobotContainer(boolean logToShuffleboard) {
         RobotContainer.swerve = new SwerveSubsystem(logToShuffleboard).initializeAutoBuilder();
+        RobotContainer.intake = new IntakeSubsystem(logToShuffleboard);
 
         this.logToShuffleboard = logToShuffleboard;
 
@@ -56,6 +58,10 @@ public class RobotContainer {
                 Controls.driveRotate.getAsDouble()
             ), DriveModes.AUTOMATIC);
         }).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
+        setDefaultCommand(intake, intake.run(() -> {
+            intake.stop();
+        }));
     }
 
     //Any commands that are reused a lot but can't go in a separate class go here
@@ -118,6 +124,10 @@ public class RobotContainer {
                 Controls.driveTranslateY
             )
         );
+
+        Controls.groundIntake.whileTrue(new GroundIntakeCommand());
+        Controls.hpIntake.whileTrue(new HPIntakeCommand());
+        Controls.score.whileTrue(new ScoreCommand());
     }
 
     /**

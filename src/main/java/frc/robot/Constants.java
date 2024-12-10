@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.apriltag.*;
 import edu.wpi.first.math.geometry.*;
+import lib.team8592.PIDGainsProfile;
 
 public final class Constants {
     public final class SHARED {
@@ -49,32 +50,28 @@ public final class Constants {
         public static final double TRIGGER_PRESS_DEADBAND = 0.1;
     }
 
-    public final class CAN {
-        public static final int SWERVE_BLACK_FRONT_LEFT_DRIVE_CAN_ID = 17;
-        public static final int SWERVE_BLACK_FRONT_LEFT_STEER_CAN_ID = 9;
-        public static final int SWERVE_BLACK_FRONT_LEFT_ENCODER_CAN_ID = 13;
-
-        public static final int SWERVE_ORANGE_FRONT_RIGHT_DRIVE_CAN_ID = 7;
-        public static final int SWERVE_ORANGE_FRONT_RIGHT_STEER_CAN_ID = 8;
-        public static final int SWERVE_ORANGE_FRONT_RIGHT_ENCODER_CAN_ID = 12;
-
-        public static final int SWERVE_TEAL_BACK_LEFT_DRIVE_CAN_ID = 18;
-        public static final int SWERVE_TEAL_BACK_LEFT_STEER_CAN_ID = 4;
-        public static final int SWERVE_TEAL_BACK_LEFT_ENCODER_CAN_ID = 10;
-
-        public static final int SWERVE_WHITE_BACK_RIGHT_DRIVE_CAN_ID = 5;
-        public static final int SWERVE_WHITE_BACK_RIGHT_STEER_CAN_ID = 6;
-        public static final int SWERVE_WHITE_BACK_RIGHT_ENCODER_CAN_ID = 11;
-
-        public static final int PIGEON_CAN_ID = 20;
-
-        public static final int PDH_CAN_ID = 1;
-    }
-
     public final class POWER {
         public static final int SWERVE_MAX_VOLTAGE = 12;
         public static final int SWERVE_DRIVE_CURRENT_LIMIT = 80;
         public static final int SWERVE_STEER_CURRENT_LIMIT = 40;
+    }
+
+    public final class INTAKE {
+        public static final double TOP_ROLLER_INTAKE_RPM = 3000d;
+        public static final double TOP_ROLLER_SCORE_HIGH_RPM = -2000d;
+        public static final double TOP_ROLLER_SCORE_GRID_RPM = -2500d;
+
+        public static final double BOTTOM_ROLLER_INTAKE_RPM = 3000d;
+        public static final double BOTTOM_ROLLER_SCORE_HIGH_RPM = -2000d;
+        public static final double BOTTOM_ROLLER_SCORE_GRID_RPM = -2500d;
+
+        public static final PIDGainsProfile TOP_ROLLER_GAINS = new PIDGainsProfile()
+            .setP(1E-3)
+            .setFF(1E-4);
+
+        public static final PIDGainsProfile BOTTOM_ROLLER_GAINS = new PIDGainsProfile()
+            .setP(1E-3)
+            .setFF(1E-4);
     }
 
     public final class SWERVE {

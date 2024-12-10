@@ -85,7 +85,7 @@ public class SwerveSubsystem extends NewtonSubsystem {
         // Drivetrain configuration that doesn't involve the modules
         SwerveDrivetrainConstants drivetrainConstants = (
             new SwerveDrivetrainConstants()
-            .withPigeon2Id(CAN.PIGEON_CAN_ID)
+            .withPigeon2Id(Ports.PIGEON_CAN_ID)
             .withPigeon2Configs(new Pigeon2Configuration())
             .withCANbusName("*")
         );
@@ -135,36 +135,36 @@ public class SwerveSubsystem extends NewtonSubsystem {
 
         // Generate swerve-module constant objects by combing the common constants with module-specific ones
         SwerveModuleConstants frontLeft = commonSwerveConstants.createModuleConstants(
-            CAN.SWERVE_BLACK_FRONT_LEFT_STEER_CAN_ID,
-            CAN.SWERVE_BLACK_FRONT_LEFT_DRIVE_CAN_ID,
-            CAN.SWERVE_BLACK_FRONT_LEFT_ENCODER_CAN_ID,
+            Ports.SWERVE_BLACK_FRONT_LEFT_STEER_CAN_ID,
+            Ports.SWERVE_BLACK_FRONT_LEFT_DRIVE_CAN_ID,
+            Ports.SWERVE_BLACK_FRONT_LEFT_ENCODER_CAN_ID,
             SWERVE.BLACK_FRONT_LEFT_STEER_OFFSET,
             Units.inchesToMeters(SWERVE.BLACK_FRONT_LEFT_X_POSITION),
             Units.inchesToMeters(SWERVE.BLACK_FRONT_LEFT_Y_POSITION),
             SWERVE.INVERT_LEFT_SIDE
         ).withSteerMotorInverted(SWERVE.BLACK_FRONT_LEFT_STEER_INVERT);
         SwerveModuleConstants frontRight = commonSwerveConstants.createModuleConstants(
-            CAN.SWERVE_ORANGE_FRONT_RIGHT_STEER_CAN_ID,
-            CAN.SWERVE_ORANGE_FRONT_RIGHT_DRIVE_CAN_ID,
-            CAN.SWERVE_ORANGE_FRONT_RIGHT_ENCODER_CAN_ID,
+            Ports.SWERVE_ORANGE_FRONT_RIGHT_STEER_CAN_ID,
+            Ports.SWERVE_ORANGE_FRONT_RIGHT_DRIVE_CAN_ID,
+            Ports.SWERVE_ORANGE_FRONT_RIGHT_ENCODER_CAN_ID,
             SWERVE.ORANGE_FRONT_RIGHT_STEER_OFFSET,
             Units.inchesToMeters(SWERVE.ORANGE_FRONT_RIGHT_X_POSITION),
             Units.inchesToMeters(SWERVE.ORANGE_FRONT_RIGHT_Y_POSITION),
             SWERVE.INVERT_RIGHT_SIDE
         ).withSteerMotorInverted(SWERVE.ORANGE_FRONT_RIGHT_STEER_INVERT);
         SwerveModuleConstants backLeft = commonSwerveConstants.createModuleConstants(
-            CAN.SWERVE_TEAL_BACK_LEFT_STEER_CAN_ID,
-            CAN.SWERVE_TEAL_BACK_LEFT_DRIVE_CAN_ID,
-            CAN.SWERVE_TEAL_BACK_LEFT_ENCODER_CAN_ID,
+            Ports.SWERVE_TEAL_BACK_LEFT_STEER_CAN_ID,
+            Ports.SWERVE_TEAL_BACK_LEFT_DRIVE_CAN_ID,
+            Ports.SWERVE_TEAL_BACK_LEFT_ENCODER_CAN_ID,
             SWERVE.TEAL_BACK_LEFT_STEER_OFFSET,
             Units.inchesToMeters(SWERVE.TEAL_BACK_LEFT_X_POSITION),
             Units.inchesToMeters(SWERVE.TEAL_BACK_LEFT_Y_POSITION),
             SWERVE.INVERT_LEFT_SIDE
         ).withSteerMotorInverted(SWERVE.TEAL_BACK_LEFT_STEER_INVERT);
         SwerveModuleConstants backRight = commonSwerveConstants.createModuleConstants(
-            CAN.SWERVE_WHITE_BACK_RIGHT_STEER_CAN_ID,
-            CAN.SWERVE_WHITE_BACK_RIGHT_DRIVE_CAN_ID,
-            CAN.SWERVE_WHITE_BACK_RIGHT_ENCODER_CAN_ID,
+            Ports.SWERVE_WHITE_BACK_RIGHT_STEER_CAN_ID,
+            Ports.SWERVE_WHITE_BACK_RIGHT_DRIVE_CAN_ID,
+            Ports.SWERVE_WHITE_BACK_RIGHT_ENCODER_CAN_ID,
         SWERVE.WHITE_BACK_RIGHT_STEER_OFFSET,
             Units.inchesToMeters(SWERVE.WHITE_BACK_RIGHT_X_POSITION),
             Units.inchesToMeters(SWERVE.WHITE_BACK_RIGHT_Y_POSITION),
