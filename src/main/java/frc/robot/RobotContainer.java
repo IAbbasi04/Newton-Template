@@ -8,7 +8,7 @@ import frc.robot.Controls.ControlSets;
 import frc.robot.autonomous.AutoManager;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Swerve.DriveModes;
+import frc.robot.subsystems.SwerveSubsystem.DriveModes;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.*;
@@ -16,14 +16,18 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 
 public class RobotContainer {
     // The robot's subsystems
-    public static Swerve swerve;
+    public static SwerveSubsystem swerve;
+
+    private boolean logToShuffleboard = false;
 
     /**
      * Create the robot container. This creates and configures subsystems, sets
      * up button bindings, and prepares for autonomous.
      */
     public RobotContainer(boolean logToShuffleboard) {
-        RobotContainer.swerve = new Swerve(logToShuffleboard).initializeAutoBuilder();
+        RobotContainer.swerve = new SwerveSubsystem(logToShuffleboard).initializeAutoBuilder();
+
+        this.logToShuffleboard = logToShuffleboard;
 
         this.configureBindings(ControlSets.DUAL_DRIVER);
         this.configureDefaults();
@@ -142,5 +146,12 @@ public class RobotContainer {
             //If you want to force-allow setting a cancel-incoming default command, directly call `subsystem.setDefaultCommand()` instead
             throw new UnsupportedOperationException("Can't set a default command that cancels incoming!");
         }
+    }
+
+    /**
+     * Whether we want to log to shuffleboard
+     */
+    public boolean logToShuffleboard() {
+        return logToShuffleboard;
     }
 }

@@ -63,4 +63,9 @@ public final class Suppliers {
         () -> robotRunningOnRed.getAsBoolean() ? SWERVE.RED_PERSPECTIVE_ROTATION : SWERVE.BLUE_PERSPECTIVE_ROTATION,
         "CurrentGyroscopeRotationOffset"
     );
+
+    /**
+     * Whether we are using a physical robot or simulating one
+     */
+    public static final BooleanSupplier robotIsReal = () -> Robot.isReal();
 }

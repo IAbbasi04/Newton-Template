@@ -32,10 +32,10 @@ import lib.team8592.SmoothingFilter;
 import lib.team8592.hardware.CTRESwerve;
 import frc.robot.Constants.*;
 
-public class Swerve extends NewtonSubsystem {
+public class SwerveSubsystem extends NewtonSubsystem {
     /**
      * Small enum to control whether to drive robot- or field-
-     * relative for {@link Swerve#drive(ChassisSpeeds, DriveModes)}
+     * relative for {@link SwerveSubsystem#drive(ChassisSpeeds, DriveModes)}
      */
     public enum DriveModes{
         /** Drive robot-relative */
@@ -59,7 +59,7 @@ public class Swerve extends NewtonSubsystem {
 
     private ChassisSpeeds desiredSpeeds = new ChassisSpeeds();
 
-    public Swerve(boolean logToShuffleboard) {
+    public SwerveSubsystem(boolean logToShuffleboard) {
         super(logToShuffleboard);
 
         smoothingFilter = new SmoothingFilter(
@@ -209,7 +209,7 @@ public class Swerve extends NewtonSubsystem {
         });
     }
 
-    public Swerve initializeAutoBuilder() {
+    public SwerveSubsystem initializeAutoBuilder() {
         AutoBuilder.configureHolonomic(
             swerve::getCurrentOdometryPosition, 
             this::resetPose,
@@ -374,7 +374,7 @@ public class Swerve extends NewtonSubsystem {
      * @param rawY the raw Y input from a joystick. Should be -1 to 1
      * @param rawRot the raw rotation input from a joystick. Should be -1 to 1
      * @param fieldRelativeAllowed if this is true, switch between field- and
-     * robot-relative based on {@link Swerve#robotRelative}. Otherwise, force
+     * robot-relative based on {@link SwerveSubsystem#robotRelative}. Otherwise, force
      * robot-relative.
      *
      * @return a ChassisSpeeds ready to be sent to the swerve.

@@ -1,10 +1,7 @@
 package frc.robot;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import lib.team8592.PIDGainsProfile;
+import edu.wpi.first.apriltag.*;
+import edu.wpi.first.math.geometry.*;
 
 public final class Constants {
     public final class SHARED {
@@ -15,9 +12,14 @@ public final class Constants {
         public static final double RED_WALL_X = 16.542; // distance in meters between red and blue sides
     }
 
+    public final class LOGGER {
+        public static final String GAME = "_GAME_";
+        public static final String YEAR = "_YEAR_";
+        public static final String ROBOT = "_ROBOT_";
+        public static final String TEAM = "_TEAM_";
+    }
+
     public final class SIMULATION {
-        public static final double PIVOT_GROUND_TO_REST_MOVE_TIME = 0.75; // Simulated time (sec) for the pivot to move to target position
-        public static final double INTAKE_SPEED_UP_TIME = 0.2; // Simulated time (sec) for the intake rollers to hit target velocity
         public static final double SWERVE_TRANSLATE_DELTA = 0.02; // How much to update the translational velocity of the swerve in simulation
         public static final double SWERVE_ROTATE_DELTA = 0.02; // How much to update the rotational velocity of the swerve in simulation
     }
@@ -67,83 +69,12 @@ public final class Constants {
         public static final int PIGEON_CAN_ID = 20;
 
         public static final int PDH_CAN_ID = 1;
-
-        public static final int INTAKE_TOP_ROLLER_ID = 29;
-        public static final int INTAKE_BOTTOM_ROLLER_ID = 31;
-
-        public static final int PIVOT_ID = 30;
-        
-        public static final int INTAKE_BEAM_BREAK_PORT = 0;
     }
 
     public final class POWER {
         public static final int SWERVE_MAX_VOLTAGE = 12;
         public static final int SWERVE_DRIVE_CURRENT_LIMIT = 80;
         public static final int SWERVE_STEER_CURRENT_LIMIT = 40;
-    }
-
-    public final class PIVOT {
-        public static final double GROUND_DEGREES = 0.0;
-        public static final double REST_DEGREES = 90.0;
-        public static final double SCORE_HIGH_DEGREES = 75.0;
-        public static final double HP_LOAD_DEGREES = 20.0;
-        public static final double KNOCK_OVER_DEGREES = 14.0;
-        public static final double SCORE_LOW_DEGREES = 10.0;
-        public static final double SCORE_GRID_DEGREES = 10.0;
-
-        /**
-         * 125:1 gearbox ratio
-         * 36:15 chain sprocket ratio
-         * 360 degrees per rotation
-         */
-        public static final double PIVOT_DEGREES_TO_MOTOR_ROTATIONS = 
-            (125d / 1d) * 
-            (36d / 15d) / 360d;
-        
-        public static final double MOTOR_ROTATIONS_TO_PIVOT_DEGREES = 
-            1d / PIVOT_DEGREES_TO_MOTOR_ROTATIONS;
-
-        public static final double MINIMUM_ROTATIONS = 0d;
-        public static final double MAXIMUM_ROTATIONS = 90d * PIVOT_DEGREES_TO_MOTOR_ROTATIONS;
-
-        public static final double AT_TARGET_TOLERANCE = 2.0; // degrees
-
-        public static final double ABSOLUTE_ENCODER_OFFSET = 0; // rotations
-
-        public static final double PIVOT_MANUAL_CONTROL_MAX_SPEED = 0.4; // percent
-
-        public static final PIDGainsProfile RAISE_GAINS = new PIDGainsProfile()
-            .setP(2e-4)
-            .setFF(1.5e-4)
-            .setMaxVelocity(5000) // RPM
-            .setMaxAcceleration(12000) // RPM/s
-            .setSoftLimits(MINIMUM_ROTATIONS, MAXIMUM_ROTATIONS) // rotations
-            .setSlot(0);
-
-        public static final PIDGainsProfile LOWER_GAINS = new PIDGainsProfile()
-            .setP(2e-4)
-            .setFF(1.5e-4)
-            .setMaxVelocity(5000) // RPM
-            .setMaxAcceleration(7000) // RPM/s
-            .setSoftLimits(MINIMUM_ROTATIONS, MAXIMUM_ROTATIONS) // rotations
-            .setSlot(1);
-    }
-
-    public final class INTAKE {
-        public static final double TOP_INTAKING_SPEED = 5000;
-        public static final double TOP_OUTTAKING_SPEED = -3000;
-        public static final double TOP_SCORING_SPEED = -3000;
-
-        public static final double BOTTOM_INTAKING_SPEED = 5000;
-        public static final double BOTTOM_OUTTAKING_SPEED = -3000;
-        public static final double BOTTOM_SCORING_SPEED = -3000;
-
-        public static final double SCORE_TIME = 0.5; // seconds
-
-        public static final PIDGainsProfile ROLLER_GAINS = new PIDGainsProfile()
-            .setP(0.01)
-            .setFF(0.05)
-            .setSlot(0);
     }
 
     public final class SWERVE {

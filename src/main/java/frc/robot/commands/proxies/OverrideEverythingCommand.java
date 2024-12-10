@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class OverrideEverythingCommand extends Command {
-    Command command;
+    private Command command;
 
     /**
      * Proxy command that cancels all scheduled commands before
@@ -27,8 +27,7 @@ public class OverrideEverythingCommand extends Command {
         this.command = command;
     }
 
-    public void initialize() {
-    }
+    public void initialize() {}
 
     public void execute() {
         CommandScheduler.getInstance().cancelAll();

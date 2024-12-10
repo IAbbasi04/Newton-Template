@@ -3,8 +3,8 @@ package frc.robot.commands.proxies;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.*;
 
-public abstract class NewtonCommand extends WrapperCommand {
-    public NewtonCommand(Command command){
+public abstract class NewtonWrapperCommand extends WrapperCommand {
+    public NewtonWrapperCommand(Command command){
         super(command);
         setName(getClass().getSimpleName());
     }

@@ -7,7 +7,7 @@ import com.pathplanner.lib.path.*;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.autonomous.autos.DefaultAuto;
-import frc.robot.commands.proxies.NewtonCommand;
+import frc.robot.commands.proxies.NewtonWrapperCommand;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -16,7 +16,7 @@ import edu.wpi.first.math.trajectory.Trajectory.State;
 /**
  * Class to provide subsystems, convenient methods, and a constructor to autonomous commands
  */
-public abstract class AutoCommand extends NewtonCommand {
+public abstract class AutoCommand extends NewtonWrapperCommand {
     /**
      * If this is set, the odometry's known position will be set to this at the start of auto
      */

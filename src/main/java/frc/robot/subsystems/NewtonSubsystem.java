@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import lib.team8592.MatchMode;
 import lib.team8592.logging.SmartLogger;
 
 public abstract class NewtonSubsystem extends SubsystemBase {
@@ -23,6 +24,10 @@ public abstract class NewtonSubsystem extends SubsystemBase {
     }
     
     public void periodicOutputs() {}
+
+    public void onAutonomousInit() {}
+
+    public void onInit(MatchMode mode) {}
 
     public abstract void periodicLogs();
 
