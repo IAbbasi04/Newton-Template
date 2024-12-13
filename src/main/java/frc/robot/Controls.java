@@ -9,11 +9,11 @@ import frc.robot.Constants.CONTROLLERS;
 import lib.team8592.logging.SmartLogger;
 
 public final class Controls {
-    protected static final CommandXboxController driverController = new CommandXboxController(
+    private static final CommandXboxController driverController = new CommandXboxController(
         CONTROLLERS.DRIVER_PORT
     );
 
-    protected static final CommandXboxController operatorController = new CommandXboxController(
+    private static final CommandXboxController operatorController = new CommandXboxController(
         CONTROLLERS.OPERATOR_PORT
     );
 
@@ -46,7 +46,7 @@ public final class Controls {
 
     protected static Trigger groundIntake = new Trigger(() -> false);
     protected static Trigger hpIntake = new Trigger(() -> false);
-    public static Trigger score = new Trigger(() -> false);
+    protected static Trigger score = new Trigger(() -> false);
 
     /**
      * Sets the controls for the drivebase movement
@@ -115,5 +115,13 @@ public final class Controls {
                 logger.logBoolean(field.getName(), ((Trigger)field.get(null)).getAsBoolean());
             } catch (Exception e) {}
         }
+    }
+
+    protected CommandXboxController getDriver() {
+        return driverController;
+    }
+
+    protected CommandXboxController getOperator() {
+        return operatorController;
     }
 }

@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 
 public class RobotContainer {
     private SubsystemManager activeSubsystemsManager;
-    private boolean logToShuffleboard = false;
     private SwerveSubsystem swerve;
+    private IntakeSubsystem intake;
+
+    private boolean logToShuffleboard = false;
 
     /**
      * Create the robot container. This creates and configures subsystems, sets
@@ -33,7 +35,7 @@ public class RobotContainer {
 
         // Add subsystems here
         swerve = activeSubsystemsManager.getSwerve();
-        
+        intake = activeSubsystemsManager.getIntake();
 
         this.configureBindings(ControlSets.DUAL_DRIVER);
         this.configureDefaults();
@@ -126,9 +128,17 @@ public class RobotContainer {
             )
         );
 
-        Controls.groundIntake.whileTrue(new GroundIntakeCommand());
-        Controls.hpIntake.whileTrue(new HPIntakeCommand());
-        Controls.score.whileTrue(new ScoreCommand());
+        Controls.groundIntake.whileTrue(new GroundIntakeCommand()).whileFalse(
+            intake.runOnce(() -> {intake.stop();})
+        );
+
+        Controls.hpIntake.whileTrue(new HPIntakeCommand()).whileFalse(
+            intake.runOnce(() -> {intake.stop();})
+        );
+        
+        Controls.score.whileTrue(new ScoreCommand()).whileFalse(
+            intake.runOnce(() -> {intake.stop();})
+        );
     }
 
     /**
