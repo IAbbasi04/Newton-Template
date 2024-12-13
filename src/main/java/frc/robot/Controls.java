@@ -9,11 +9,11 @@ import frc.robot.Constants.CONTROLLERS;
 import lib.team8592.logging.SmartLogger;
 
 public final class Controls {
-    public static final CommandXboxController driverController = new CommandXboxController(
+    protected static final CommandXboxController driverController = new CommandXboxController(
         CONTROLLERS.DRIVER_PORT
     );
 
-    public static final CommandXboxController operatorController = new CommandXboxController(
+    protected static final CommandXboxController operatorController = new CommandXboxController(
         CONTROLLERS.OPERATOR_PORT
     );
 

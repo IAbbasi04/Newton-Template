@@ -1,4 +1,14 @@
 {
+<<<<<<< HEAD
+=======
+  "HALProvider": {
+    "Other Devices": {
+      "window": {
+        "visible": false
+      }
+    }
+  },
+>>>>>>> subsystem-list
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -25,19 +35,31 @@
     }
   },
   "NetworkTables": {
+<<<<<<< HEAD
     "transitory": {
       "Shuffleboard": {
         "Controls": {
           "open": true
         },
         "IntakeSubsystem": {
+=======
+    "Retained Values": {
+      "open": false
+    },
+    "transitory": {
+      "Shuffleboard": {
+        "SwerveSubsystem": {
+>>>>>>> subsystem-list
           "open": true
         },
         "open": true
       }
     }
+<<<<<<< HEAD
   },
   "NetworkTables Info": {
     "visible": true
+=======
+>>>>>>> subsystem-list
   }
 }

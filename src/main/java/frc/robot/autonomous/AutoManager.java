@@ -10,12 +10,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
-import frc.robot.Suppliers;
 import frc.robot.autonomous.autos.DefaultAuto;
 import frc.robot.autonomous.autos.ScorePreloadAuto;
 import frc.robot.commands.proxies.*;
-
-import static frc.robot.RobotContainer.*;
+import frc.robot.subsystems.SubsystemManager;
 
 /**
  * General class for autonomous management (loading autos, sending the chooser, getting the
@@ -24,6 +22,7 @@ import static frc.robot.RobotContainer.*;
 public final class AutoManager {
     private static SendableChooser<AutoCommand> autoChooser;
     private static ArrayList<AutoCommand> autoCommands = new ArrayList<>();
+    private static SubsystemManager manager;
 
     /**
      * Load all autos and broadcast the chooser.
@@ -33,15 +32,16 @@ public final class AutoManager {
      * @apiNote This should be called on {@link Robot#robotInit()} only;
      * this function will have relatively long delays due to loading paths.
      */
-    public static void prepare(){
-        autoCommands = new ArrayList<>();
+    public static void prepare(SubsystemManager manager){
+        AutoManager.autoCommands = new ArrayList<>();
+        AutoManager.manager = manager;
 
         // autoCommands.add(new ExampleAuto());
         // TODO: Add autos here like example above
         autoCommands.add(new ScorePreloadAuto());
 
-        autoChooser = new SendableChooser<>();
-        autoChooser.setDefaultOption("DEFAULT - DO NOTHING", new DefaultAuto());
+        AutoManager.autoChooser = new SendableChooser<>();
+        AutoManager.autoChooser.setDefaultOption("DEFAULT - DO NOTHING", new DefaultAuto());
         for(AutoCommand c : autoCommands){
             autoChooser.addOption(
                 c.getAutoName()+(
@@ -60,36 +60,11 @@ public final class AutoManager {
     public static Command getAutonomousCommand(){
         AutoCommand autoCommand = autoChooser.getSelected();
 
-        if(autoCommand.getStartPose() == null){ // If we have no start pose, just run the auto
-            return getAutonomousInitCommand().andThen(
-                // If we don't keep this command from registering as composed,
-                // the code will crash if we try to run an auto twice without
-                // restarting robot code.
-                new MultiComposableCommand(autoCommand)
-            );
-        }
-        else{ // If we do have a starting pose, reset the odometry to that first
-            return getAutonomousInitCommand().andThen(
-                swerve.runOnce(() -> swerve.resetPose(
-                    autoCommand.getStartPose(), Suppliers.robotRunningOnRed.getAsBoolean()
-                ))
-            ).andThen(
-                new MultiComposableCommand(autoCommand)
-            );
-        }
-    }
-
-    /**
-     * Parallel command group that runs all subsystems' autonomous init commands.
-     *
-     * @return the command
-     */
-    private static Command getAutonomousInitCommand(){
-        return new ParallelCommandGroup(
-            swerve.runOnce(() -> {
-                swerve.stop();
-                swerve.resetHeading();
-            })
+        return manager.onAutonomousInitCommand().andThen(
+            // If we don't keep this command from registering as composed,
+            // the code will crash if we try to run an auto twice without
+            // restarting robot code.
+            new MultiComposableCommand(autoCommand)
         );
     }
 

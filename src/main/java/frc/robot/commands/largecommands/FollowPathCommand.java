@@ -13,9 +13,8 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.Constants.MEASUREMENTS;
 import frc.robot.Constants.SWERVE;
+import frc.robot.subsystems.SwerveSubsystem;
 import lib.team8592.logging.SmartLogger;
-
-import static frc.robot.RobotContainer.*;
 
 public class FollowPathCommand extends LargeCommand {
     // Pathing variables
@@ -40,13 +39,16 @@ public class FollowPathCommand extends LargeCommand {
     // Logging
     private SmartLogger logger;
 
+    // Swerve
+    private SwerveSubsystem swerve;
+
     /**
      * Command to follow a trajectory assuming we always flip paths for red
      *
      * @param trajectory the trajectory to follow
      */
-    public FollowPathCommand(Trajectory trajectory) {
-        this(trajectory, () -> true);
+    public FollowPathCommand(Trajectory trajectory, SwerveSubsystem swerve) {
+        this(trajectory, () -> true, swerve);
     }
 
     /**
@@ -56,8 +58,9 @@ public class FollowPathCommand extends LargeCommand {
      * @param flip lambda that returns whether to mirror the path to the
      * red side of the field.
      */
-    public FollowPathCommand(Trajectory trajectory, BooleanSupplier flip){
+    public FollowPathCommand(Trajectory trajectory, BooleanSupplier flip, SwerveSubsystem swerve){
         super(swerve);
+        this.swerve = swerve;
 
         this.trajectory = trajectory;
 
@@ -135,9 +138,10 @@ public class FollowPathCommand extends LargeCommand {
     public FollowPathCommand(
         Trajectory trajectory, BooleanSupplier flip,
         BooleanSupplier useAlternateRotation, Supplier<Rotation2d> rotationSupplier,
-        BooleanSupplier useAlternateTranslation, Supplier<ChassisSpeeds> translationSupplier
+        BooleanSupplier useAlternateTranslation, Supplier<ChassisSpeeds> translationSupplier,
+        SwerveSubsystem swerve
     ){
-        this(trajectory, flip);
+        this(trajectory, flip, swerve);
         this.useAlternateRotation = useAlternateRotation;
         this.alternateRotation = rotationSupplier;
         this.useAlternateRotation = useAlternateTranslation;

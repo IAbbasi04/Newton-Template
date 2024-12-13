@@ -5,11 +5,16 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.SubsystemManager;
 import frc.robot.subsystems.SwerveSubsystem.DriveModes;
 
-import static frc.robot.RobotContainer.*;
-
 public final class NewtonCommands {
+    private static SubsystemManager manager;
+
+    public static void initialize(SubsystemManager manager) {
+        NewtonCommands.manager = manager;
+    }
+
     /**
      * Command to drive the swerve with translation processed for human input and
      * rotation controlled by the snap-to PID controller (snapping to the passed-in)
@@ -22,14 +27,14 @@ public final class NewtonCommands {
      * @return the command
      */
     public static Command swerveSnapToCommand(Rotation2d angle, DoubleSupplier driveX, DoubleSupplier driveY){
-        return swerve.run(() -> {
-            ChassisSpeeds processed = swerve.processJoystickInputs(
+        return manager.getSwerve().run(() -> {
+            ChassisSpeeds processed = manager.getSwerve().processJoystickInputs(
                 driveX.getAsDouble(),
                 driveY.getAsDouble(),
                 0
             );
-            processed.omegaRadiansPerSecond = swerve.snapToAngle(angle);
-            swerve.drive(processed, DriveModes.AUTOMATIC);
+            processed.omegaRadiansPerSecond = manager.getSwerve().snapToAngle(angle);
+            manager.getSwerve().drive(processed, DriveModes.AUTOMATIC);
         });
     }
 

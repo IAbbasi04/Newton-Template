@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 import lib.team8592.MatchMode;
+import lib.team8592.RobotClock;
 import lib.team8592.utils.LogUtils;
 import lib.team8592.utils.LogUtils.LogConstants;
 
@@ -23,11 +24,11 @@ import lib.team8592.utils.LogUtils.LogConstants;
  */
 public class Robot extends LoggedRobot {
     private Command autonomousCommand;
-
     private RobotContainer robotContainer;
 
     public static Field2d FIELD = new Field2d();
     public static MatchMode MODE = MatchMode.DISABLED;
+    public static RobotClock CLOCK = new RobotClock();
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -48,6 +49,8 @@ public class Robot extends LoggedRobot {
         if (robotContainer.logToShuffleboard()) {
             SmartDashboard.putData(FIELD);
         }
+
+        this.robotContainer.getInitCommand(MODE);
     }
 
     /**
@@ -71,17 +74,18 @@ public class Robot extends LoggedRobot {
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
         Controls.logControlsToShuffleboard();
+        CLOCK.update();
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
         MODE = MatchMode.DISABLED;
+        this.robotContainer.getInitCommand(MODE);
     }
 
     @Override
-    public void disabledPeriodic() {
-    }
+    public void disabledPeriodic() {}
 
     /**
      * This autonomous runs the autonomous command selected by your
@@ -100,8 +104,7 @@ public class Robot extends LoggedRobot {
 
     /** This function is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {
-    }
+    public void autonomousPeriodic() {}
 
     @Override
     public void teleopInit() {
@@ -114,32 +117,30 @@ public class Robot extends LoggedRobot {
         }
 
         MODE = MatchMode.TELEOP;
+        this.robotContainer.getInitCommand(MODE);
     }
 
     /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {
-    }
+    public void teleopPeriodic() {}
 
     @Override
     public void testInit() {
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
         MODE = MatchMode.TEST;
+        this.robotContainer.getInitCommand(MODE);
     }
 
     /** This function is called periodically during test mode. */
     @Override
-    public void testPeriodic() {
-    }
+    public void testPeriodic() {}
 
     /** This function is called once when the robot is first started up. */
     @Override
-    public void simulationInit() {
-    }
+    public void simulationInit() {}
 
     /** This function is called periodically whilst in simulation. */
     @Override
-    public void simulationPeriodic() {
-    }
+    public void simulationPeriodic() {}
 }

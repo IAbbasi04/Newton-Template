@@ -16,29 +16,48 @@
   },
   "Table": {
     "0x542B5671,2": {
+<<<<<<< HEAD
       "Column 0  Width": "267",
       "Column 1  Width": "249",
+=======
+      "Column 0  Width": "258",
+      "Column 1  Width": "400",
+>>>>>>> subsystem-list
       "RefScale": "13"
     }
   },
   "Window": {
     "###/Shuffleboard/Autonomous Config/SendableChooser[0]": {
       "Collapsed": "0",
+<<<<<<< HEAD
       "Pos": "314,864",
+=======
+      "Pos": "498,944",
+>>>>>>> subsystem-list
       "Size": "254,54"
     },
     "###/SmartDashboard/Field": {
       "Collapsed": "0",
+<<<<<<< HEAD
       "Pos": "234,29",
       "Size": "1141,590"
     },
     "###FMS": {
       "Collapsed": "0",
       "Pos": "15,746",
+=======
+      "Pos": "106,26",
+      "Size": "1225,638"
+    },
+    "###FMS": {
+      "Collapsed": "0",
+      "Pos": "6,779",
+>>>>>>> subsystem-list
       "Size": "283,140"
     },
     "###Joysticks": {
       "Collapsed": "0",
+<<<<<<< HEAD
       "Pos": "350,924",
       "Size": "796,240"
     },
@@ -50,10 +69,24 @@
     "###NetworkTables Info": {
       "Collapsed": "0",
       "Pos": "1174,963",
+=======
+      "Pos": "1112,928",
+      "Size": "796,73"
+    },
+    "###NetworkTables": {
+      "Collapsed": "0",
+      "Pos": "1361,27",
+      "Size": "546,892"
+    },
+    "###NetworkTables Info": {
+      "Collapsed": "0",
+      "Pos": "1118,776",
+>>>>>>> subsystem-list
       "Size": "750,145"
     },
     "###Other Devices": {
       "Collapsed": "0",
+<<<<<<< HEAD
       "Pos": "22,888",
       "Size": "267,96"
     },
@@ -66,6 +99,20 @@
       "Collapsed": "0",
       "Pos": "12,292",
       "Size": "141,196"
+=======
+      "Pos": "639,273",
+      "Size": "250,695"
+    },
+    "###System Joysticks": {
+      "Collapsed": "0",
+      "Pos": "914,783",
+      "Size": "192,218"
+    },
+    "###Timing": {
+      "Collapsed": "0",
+      "Pos": "761,829",
+      "Size": "141,173"
+>>>>>>> subsystem-list
     },
     "Debug##Default": {
       "Collapsed": "0",
@@ -74,7 +121,11 @@
     },
     "Robot State": {
       "Collapsed": "0",
+<<<<<<< HEAD
       "Pos": "11,169",
+=======
+      "Pos": "5,20",
+>>>>>>> subsystem-list
       "Size": "92,116"
     }
   }

@@ -28,11 +28,19 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.*;
+import lib.team8592.MatchMode;
 import lib.team8592.SmoothingFilter;
 import lib.team8592.hardware.CTRESwerve;
+import lib.team8592.utils.Utils;
 import frc.robot.Constants.*;
 
 public class SwerveSubsystem extends NewtonSubsystem {
+    private static SwerveSubsystem instance = null;
+    protected static SwerveSubsystem getInstance() {
+        if (instance == null) instance = new SwerveSubsystem(false);
+        return instance;
+    }
+
     /**
      * Small enum to control whether to drive robot- or field-
      * relative for {@link SwerveSubsystem#drive(ChassisSpeeds, DriveModes)}
@@ -59,7 +67,7 @@ public class SwerveSubsystem extends NewtonSubsystem {
 
     private ChassisSpeeds desiredSpeeds = new ChassisSpeeds();
 
-    public SwerveSubsystem(boolean logToShuffleboard) {
+    protected SwerveSubsystem(boolean logToShuffleboard) {
         super(logToShuffleboard);
 
         smoothingFilter = new SmoothingFilter(
@@ -419,6 +427,28 @@ public class SwerveSubsystem extends NewtonSubsystem {
     }
 
     @Override
+    public void onInit(MatchMode mode) {
+        switch(mode) {
+            case AUTONOMOUS:
+                if (this.getCurrentPosition() == null) {
+                    this.resetPose(
+                        Utils.mirrorPose(
+                            new Pose2d(), 
+                            Suppliers.robotRunningOnRed.getAsBoolean()
+                        )
+                    );
+                }
+
+                this.stop();
+                this.resetHeading();
+                break;
+            default: 
+                // Typically do nothing on init
+                break;
+        }
+    }
+
+    @Override
     public void simulationPeriodic() {
         Pose2d newRobotPose = getCurrentPosition();
         switch (Robot.MODE) {
@@ -452,7 +482,6 @@ public class SwerveSubsystem extends NewtonSubsystem {
             break;
         }
         
-
         Robot.FIELD.setRobotPose(newRobotPose);
     }
 

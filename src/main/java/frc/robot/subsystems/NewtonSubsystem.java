@@ -7,14 +7,27 @@ import lib.team8592.logging.SmartLogger;
 public abstract class NewtonSubsystem extends SubsystemBase {
     protected SmartLogger logger;
     protected boolean logToShuffleboard = false;
+    private boolean enabled = true;
 
     protected NewtonSubsystem(boolean logToShuffleboard) {
         this.logToShuffleboard = logToShuffleboard;
         this.logger = new SmartLogger(getName(), logToShuffleboard);
     }
 
+    public void initializeLogger() {
+        this.logger.initialize();
+    }
+
     public boolean currentlyCommanded(){
         return getCurrentCommand() != null && getCurrentCommand() != getDefaultCommand();
+    }
+
+    public void enableSubsystem(boolean enable) {
+        this.enabled = enable;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     @Override
@@ -25,9 +38,7 @@ public abstract class NewtonSubsystem extends SubsystemBase {
     
     public void periodicOutputs() {}
 
-    public void onAutonomousInit() {}
-
-    public void onInit(MatchMode mode) {}
+    public abstract void onInit(MatchMode mode);
 
     public abstract void periodicLogs();
 
