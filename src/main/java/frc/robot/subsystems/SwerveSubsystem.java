@@ -28,11 +28,19 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.*;
+import lib.team8592.MatchMode;
 import lib.team8592.SmoothingFilter;
 import lib.team8592.hardware.CTRESwerve;
+import lib.team8592.utils.Utils;
 import frc.robot.Constants.*;
 
 public class SwerveSubsystem extends NewtonSubsystem {
+    private static SwerveSubsystem instance = null;
+    protected static SwerveSubsystem getInstance() {
+        if (instance == null) instance = new SwerveSubsystem(false);
+        return instance;
+    }
+
     /**
      * Small enum to control whether to drive robot- or field-
      * relative for {@link SwerveSubsystem#drive(ChassisSpeeds, DriveModes)}
@@ -59,7 +67,7 @@ public class SwerveSubsystem extends NewtonSubsystem {
 
     private ChassisSpeeds desiredSpeeds = new ChassisSpeeds();
 
-    public SwerveSubsystem(boolean logToShuffleboard) {
+    protected SwerveSubsystem(boolean logToShuffleboard) {
         super(logToShuffleboard);
 
         smoothingFilter = new SmoothingFilter(
@@ -85,7 +93,7 @@ public class SwerveSubsystem extends NewtonSubsystem {
         // Drivetrain configuration that doesn't involve the modules
         SwerveDrivetrainConstants drivetrainConstants = (
             new SwerveDrivetrainConstants()
-            .withPigeon2Id(CAN.PIGEON_CAN_ID)
+            .withPigeon2Id(Ports.PIGEON_CAN_ID)
             .withPigeon2Configs(new Pigeon2Configuration())
             .withCANbusName("*")
         );
@@ -135,36 +143,36 @@ public class SwerveSubsystem extends NewtonSubsystem {
 
         // Generate swerve-module constant objects by combing the common constants with module-specific ones
         SwerveModuleConstants frontLeft = commonSwerveConstants.createModuleConstants(
-            CAN.SWERVE_BLACK_FRONT_LEFT_STEER_CAN_ID,
-            CAN.SWERVE_BLACK_FRONT_LEFT_DRIVE_CAN_ID,
-            CAN.SWERVE_BLACK_FRONT_LEFT_ENCODER_CAN_ID,
+            Ports.SWERVE_BLACK_FRONT_LEFT_STEER_CAN_ID,
+            Ports.SWERVE_BLACK_FRONT_LEFT_DRIVE_CAN_ID,
+            Ports.SWERVE_BLACK_FRONT_LEFT_ENCODER_CAN_ID,
             SWERVE.BLACK_FRONT_LEFT_STEER_OFFSET,
             Units.inchesToMeters(SWERVE.BLACK_FRONT_LEFT_X_POSITION),
             Units.inchesToMeters(SWERVE.BLACK_FRONT_LEFT_Y_POSITION),
             SWERVE.INVERT_LEFT_SIDE
         ).withSteerMotorInverted(SWERVE.BLACK_FRONT_LEFT_STEER_INVERT);
         SwerveModuleConstants frontRight = commonSwerveConstants.createModuleConstants(
-            CAN.SWERVE_ORANGE_FRONT_RIGHT_STEER_CAN_ID,
-            CAN.SWERVE_ORANGE_FRONT_RIGHT_DRIVE_CAN_ID,
-            CAN.SWERVE_ORANGE_FRONT_RIGHT_ENCODER_CAN_ID,
+            Ports.SWERVE_ORANGE_FRONT_RIGHT_STEER_CAN_ID,
+            Ports.SWERVE_ORANGE_FRONT_RIGHT_DRIVE_CAN_ID,
+            Ports.SWERVE_ORANGE_FRONT_RIGHT_ENCODER_CAN_ID,
             SWERVE.ORANGE_FRONT_RIGHT_STEER_OFFSET,
             Units.inchesToMeters(SWERVE.ORANGE_FRONT_RIGHT_X_POSITION),
             Units.inchesToMeters(SWERVE.ORANGE_FRONT_RIGHT_Y_POSITION),
             SWERVE.INVERT_RIGHT_SIDE
         ).withSteerMotorInverted(SWERVE.ORANGE_FRONT_RIGHT_STEER_INVERT);
         SwerveModuleConstants backLeft = commonSwerveConstants.createModuleConstants(
-            CAN.SWERVE_TEAL_BACK_LEFT_STEER_CAN_ID,
-            CAN.SWERVE_TEAL_BACK_LEFT_DRIVE_CAN_ID,
-            CAN.SWERVE_TEAL_BACK_LEFT_ENCODER_CAN_ID,
+            Ports.SWERVE_TEAL_BACK_LEFT_STEER_CAN_ID,
+            Ports.SWERVE_TEAL_BACK_LEFT_DRIVE_CAN_ID,
+            Ports.SWERVE_TEAL_BACK_LEFT_ENCODER_CAN_ID,
             SWERVE.TEAL_BACK_LEFT_STEER_OFFSET,
             Units.inchesToMeters(SWERVE.TEAL_BACK_LEFT_X_POSITION),
             Units.inchesToMeters(SWERVE.TEAL_BACK_LEFT_Y_POSITION),
             SWERVE.INVERT_LEFT_SIDE
         ).withSteerMotorInverted(SWERVE.TEAL_BACK_LEFT_STEER_INVERT);
         SwerveModuleConstants backRight = commonSwerveConstants.createModuleConstants(
-            CAN.SWERVE_WHITE_BACK_RIGHT_STEER_CAN_ID,
-            CAN.SWERVE_WHITE_BACK_RIGHT_DRIVE_CAN_ID,
-            CAN.SWERVE_WHITE_BACK_RIGHT_ENCODER_CAN_ID,
+            Ports.SWERVE_WHITE_BACK_RIGHT_STEER_CAN_ID,
+            Ports.SWERVE_WHITE_BACK_RIGHT_DRIVE_CAN_ID,
+            Ports.SWERVE_WHITE_BACK_RIGHT_ENCODER_CAN_ID,
         SWERVE.WHITE_BACK_RIGHT_STEER_OFFSET,
             Units.inchesToMeters(SWERVE.WHITE_BACK_RIGHT_X_POSITION),
             Units.inchesToMeters(SWERVE.WHITE_BACK_RIGHT_Y_POSITION),
@@ -419,6 +427,28 @@ public class SwerveSubsystem extends NewtonSubsystem {
     }
 
     @Override
+    public void onInit(MatchMode mode) {
+        switch(mode) {
+            case AUTONOMOUS:
+                if (this.getCurrentPosition() == null) {
+                    this.resetPose(
+                        Utils.mirrorPose(
+                            new Pose2d(), 
+                            Suppliers.robotRunningOnRed.getAsBoolean()
+                        )
+                    );
+                }
+
+                this.stop();
+                this.resetHeading();
+                break;
+            default: 
+                // Typically do nothing on init
+                break;
+        }
+    }
+
+    @Override
     public void simulationPeriodic() {
         Pose2d newRobotPose = getCurrentPosition();
         switch (Robot.MODE) {
@@ -452,7 +482,6 @@ public class SwerveSubsystem extends NewtonSubsystem {
             break;
         }
         
-
         Robot.FIELD.setRobotPose(newRobotPose);
     }
 

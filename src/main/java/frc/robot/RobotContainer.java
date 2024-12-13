@@ -9,32 +9,34 @@ import frc.robot.autonomous.AutoManager;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.SwerveSubsystem.DriveModes;
-
+import lib.team8592.MatchMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 
 public class RobotContainer {
-    // The robot's subsystems
-    public static SwerveSubsystem swerve;
-
+    private SubsystemManager activeSubsystemsManager;
     private boolean logToShuffleboard = false;
+    private SwerveSubsystem swerve;
 
     /**
      * Create the robot container. This creates and configures subsystems, sets
      * up button bindings, and prepares for autonomous.
      */
     public RobotContainer(boolean logToShuffleboard) {
-        RobotContainer.swerve = new SwerveSubsystem(logToShuffleboard).initializeAutoBuilder();
-
+        this.activeSubsystemsManager = new SubsystemManager(logToShuffleboard);
         this.logToShuffleboard = logToShuffleboard;
+
+        // Add subsystems here
+        swerve = activeSubsystemsManager.getSwerve();
+        
+        Controls.initializeShuffleboardLogs(logToShuffleboard);
+        AutoManager.prepare(activeSubsystemsManager);
+        NewtonCommands.initialize(activeSubsystemsManager);
 
         this.configureBindings(ControlSets.DUAL_DRIVER);
         this.configureDefaults();
         this.registerNamedCommands();
-
-        Controls.initializeShuffleboardLogs(logToShuffleboard);
-        AutoManager.prepare();
     }
 
     /**
@@ -153,5 +155,12 @@ public class RobotContainer {
      */
     public boolean logToShuffleboard() {
         return logToShuffleboard;
+    }
+
+    /**
+     * Runs the onInit() method for each active subsystem based on the given mode
+     */
+    public Command getInitCommand(MatchMode mode) {
+        return activeSubsystemsManager.onInitCommand(mode);
     }
 }

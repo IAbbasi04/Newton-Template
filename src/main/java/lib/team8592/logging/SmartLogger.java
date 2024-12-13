@@ -11,27 +11,36 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
 public class SmartLogger {
-    private String n_name = "";
+    private String name = "";
     private ShuffleboardTab shuffleboardTab;
     private Dictionary<String, GenericEntry> cards;
 
     private boolean logToShuffleboard = true;
+    private boolean initialized = false;
 
     public SmartLogger(String name, boolean logToShuffleboard) {
-        this.n_name = name;
+        this.name = name;
         this.logToShuffleboard = logToShuffleboard;
-
-        if (!logToShuffleboard) return;
-
-        this.shuffleboardTab = Shuffleboard.getTab(name);
         this.cards = new Hashtable<>();
     }
 
     public SmartLogger(String name) {
-        this.n_name = name;
-        this.shuffleboardTab = Shuffleboard.getTab(name);
+        this(name, true);
+    }
 
-        this.cards = new Hashtable<>();
+    public void initialize() {
+        if (logToShuffleboard && !initialized()) {
+            this.shuffleboardTab = Shuffleboard.getTab(name);
+            this.initialized = true;
+        }
+    }
+
+    public boolean initialized() {
+        return initialized;
+    }
+
+    public void enable(boolean enable) {
+        this.logToShuffleboard = enable;
     }
 
     public void enable() {
@@ -43,8 +52,9 @@ public class SmartLogger {
     }
 
     public void logDouble(String key, double value) {
-        Logger.recordOutput(n_name + "/" + key, value); // Record to AdvantageKit logs
+        Logger.recordOutput(name + "/" + key, value); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
+        if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
         if (cards.get(key) == null) { // Card doesn't exist yet on shuffleboard
             cards.put(key, shuffleboardTab.add(key, value).getEntry());
         } else { // Card already exists on shuffleboard
@@ -53,8 +63,9 @@ public class SmartLogger {
     }
 
     public void logString(String key, String value) {
-        Logger.recordOutput(n_name + "/" + key, value); // Record to AdvantageKit logs
+        Logger.recordOutput(name + "/" + key, value); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
+        if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
         if (cards.get(key) == null) { // Card doesn't exist yet on shuffleboard
             cards.put(key, shuffleboardTab.add(key, value).getEntry());
         } else { // Card already exists on shuffleboard
@@ -63,8 +74,9 @@ public class SmartLogger {
     }
 
     public void logBoolean(String key, boolean value) {
-        Logger.recordOutput(n_name + "/" + key, value); // Record to AdvantageKit logs
+        Logger.recordOutput(name + "/" + key, value); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
+        if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
         if (cards.get(key) == null) { // Card doesn't exist yet on shuffleboard
             cards.put(key, shuffleboardTab.add(key, value).getEntry());
         } else { // Card already exists on shuffleboard
@@ -73,8 +85,9 @@ public class SmartLogger {
     }
 
     public <E extends Enum<E>> void logEnum(String key, E value) {
-        Logger.recordOutput(n_name + "/" + key, value.name()); // Record to AdvantageKit logs
+        Logger.recordOutput(name + "/" + key, value.name()); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
+        if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
         if (cards.get(key) == null) { // Card doesn't exist yet on shuffleboard
             cards.put(key, shuffleboardTab.add(key, value.name()).getEntry());
         } else { // Card already exists on shuffleboard
@@ -83,8 +96,9 @@ public class SmartLogger {
     }
 
     public void logChassisSpeeds(String key, ChassisSpeeds value) {
-        Logger.recordOutput(n_name + "/" + key, value); // Record to AdvantageKit logs
+        Logger.recordOutput(name + "/" + key, value); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
+        if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
         if (cards.get(key) == null) { // Card doesn't exist yet on shuffleboard
             cards.put(key, shuffleboardTab.add(key, value.toString()).getEntry());
         } else { // Card already exists on shuffleboard
@@ -93,12 +107,19 @@ public class SmartLogger {
     }
 
     public void logPose2d(String key, Pose2d value) {
-        Logger.recordOutput(n_name + "/" + key, value); // Record to AdvantageKit logs
+        Logger.recordOutput(name + "/" + key, value); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
+        if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
         if (cards.get(key) == null) { // Card doesn't exist yet on shuffleboard
             cards.put(key, shuffleboardTab.add(key, value.toString()).getEntry());
         } else { // Card already exists on shuffleboard
             cards.get(key).setString(value.toString());
+        }
+    }
+
+    public <T> void log(String key, T value) {
+        if (value.getClass() == Pose2d.class) { // Pose 2d
+            Logger.recordOutput(name + "/" + key, (Pose2d)value);
         }
     }
 }

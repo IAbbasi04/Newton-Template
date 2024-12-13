@@ -1,7 +1,6 @@
 package frc.robot.autonomous;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.math.geometry.Pose2d;
 
 public abstract class PathPlannerAutoCommand extends AutoCommand {
