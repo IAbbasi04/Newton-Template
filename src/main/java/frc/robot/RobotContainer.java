@@ -26,13 +26,14 @@ public class RobotContainer {
     public RobotContainer(boolean logToShuffleboard) {
         this.activeSubsystemsManager = new SubsystemManager(logToShuffleboard);
         this.logToShuffleboard = logToShuffleboard;
+        
+        NewtonCommands.initialize(activeSubsystemsManager);
+        AutoManager.prepare(activeSubsystemsManager);
+        Controls.initializeShuffleboardLogs(logToShuffleboard);
 
         // Add subsystems here
         swerve = activeSubsystemsManager.getSwerve();
         
-        Controls.initializeShuffleboardLogs(logToShuffleboard);
-        AutoManager.prepare(activeSubsystemsManager);
-        NewtonCommands.initialize(activeSubsystemsManager);
 
         this.configureBindings(ControlSets.DUAL_DRIVER);
         this.configureDefaults();
