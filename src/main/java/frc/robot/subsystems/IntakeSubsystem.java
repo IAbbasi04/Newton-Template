@@ -1,13 +1,13 @@
 package frc.robot.subsystems;
 
 import frc.robot.Ports;
+import lib.team8592.MatchMode;
 import lib.team8592.hardware.motor.*;
 import lib.team8592.hardware.motor.MotorController.IdleMode;
 import frc.robot.Constants.*;
 
 public class IntakeSubsystem extends NewtonSubsystem {
     private SparkFlexMotorController topRollerMotor, bottomRollerMotor;
-
     private double desiredTopVelocityRPM, desiredBottomVelocityRPM;
 
     public IntakeSubsystem(boolean logToShuffleboard) {
@@ -34,6 +34,11 @@ public class IntakeSubsystem extends NewtonSubsystem {
 
         this.topRollerMotor.setVelocity(desiredTopRPM);
         this.bottomRollerMotor.setVelocity(desiredBottomRPM);
+    }
+
+    @Override
+    public void onInit(MatchMode mode) {
+        this.stop();
     }
 
     @Override

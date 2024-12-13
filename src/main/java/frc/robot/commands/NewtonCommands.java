@@ -43,8 +43,8 @@ public final class NewtonCommands {
      * @return
      */
     public static Command setIntakeVelocityCommand(double topVelocityRPM, double bottomVelocityRPM) {
-        return intake.run(() -> {
-            intake.setVelocity(topVelocityRPM, bottomVelocityRPM);
+        return manager.getIntake().run(() -> {
+            manager.getIntake().setVelocity(topVelocityRPM, bottomVelocityRPM);
         });
     }
 }

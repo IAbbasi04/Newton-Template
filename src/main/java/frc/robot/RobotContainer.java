@@ -59,9 +59,9 @@ public class RobotContainer {
             ), DriveModes.AUTOMATIC);
         }).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
-        setDefaultCommand(intake, intake.run(() -> {
-            intake.stop();
-        }));
+        // setDefaultCommand(intake, intake.run(() -> {
+        //     intake.stop();
+        // }));
     }
 
     //Any commands that are reused a lot but can't go in a separate class go here
