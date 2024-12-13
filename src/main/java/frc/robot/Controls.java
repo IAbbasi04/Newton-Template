@@ -46,7 +46,12 @@ public final class Controls {
 
     protected static Trigger groundIntake = new Trigger(() -> false);
     protected static Trigger hpIntake = new Trigger(() -> false);
-    protected static Trigger score = new Trigger(() -> false);
+    protected static Trigger scoreLow = new Trigger(() -> false);
+
+    protected static Trigger stow = new Trigger(() -> false);
+
+    protected static Trigger raisePivot = new Trigger(() -> false);
+    protected static Trigger lowerPivot = new Trigger(() -> false);
 
     /**
      * Sets the controls for the drivebase movement
@@ -78,7 +83,11 @@ public final class Controls {
         // Add controls that do not rely on control set below
         groundIntake = driverController.leftTrigger();
         hpIntake = driverController.leftBumper();
-        score = driverController.rightTrigger();
+        scoreLow = driverController.rightTrigger();
+
+        raisePivot = operatorController.povUp();
+        lowerPivot = operatorController.povDown();
+        stow = driverController.a().or(operatorController.a());
 
         // Use the controls set if we have differentiating inputs for a certain control
         // i.e. if single driver intaking is driver left trigger whereas 
@@ -117,11 +126,11 @@ public final class Controls {
         }
     }
 
-    protected CommandXboxController getDriver() {
+    protected static CommandXboxController getDriver() {
         return driverController;
     }
 
-    protected CommandXboxController getOperator() {
+    protected static CommandXboxController getOperator() {
         return operatorController;
     }
 }

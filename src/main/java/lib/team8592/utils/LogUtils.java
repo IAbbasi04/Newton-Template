@@ -9,6 +9,7 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Suppliers;
 
 public class LogUtils {
@@ -38,4 +39,15 @@ public class LogUtils {
         }
     }
 
+    public static void logToSmartDashboard(String key, double value) {
+        SmartDashboard.putNumber(key, value);
+    }
+
+    public static void logToSmartDashboard(String key, String value) {
+        SmartDashboard.putString(key, value);
+    }
+
+    public static void logToSmartDashboard(String key, boolean value) {
+        SmartDashboard.putBoolean(key, value);
+    }
 }

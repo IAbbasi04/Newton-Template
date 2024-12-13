@@ -37,9 +37,15 @@
         "IntakeSubsystem": {
           "open": true
         },
+        "PivotSubsystem": {
+          "open": true
+        },
         "SwerveSubsystem": {
           "open": true
         },
+        "open": true
+      },
+      "SmartDashboard": {
         "open": true
       }
     }

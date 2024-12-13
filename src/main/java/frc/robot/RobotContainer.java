@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Controls.ControlSets;
 import frc.robot.autonomous.AutoManager;
 import frc.robot.commands.*;
+import frc.robot.commands.proxies.NewtonWrapperCommand;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.SwerveSubsystem.DriveModes;
 import lib.team8592.MatchMode;
@@ -18,6 +19,7 @@ public class RobotContainer {
     private SubsystemManager activeSubsystemsManager;
     private SwerveSubsystem swerve;
     private IntakeSubsystem intake;
+    private PivotSubsystem pivot;
 
     private boolean logToShuffleboard = false;
 
@@ -30,12 +32,15 @@ public class RobotContainer {
         this.logToShuffleboard = logToShuffleboard;
         
         NewtonCommands.initialize(activeSubsystemsManager);
+        NewtonWrapperCommand.initialize(activeSubsystemsManager);
         AutoManager.prepare(activeSubsystemsManager);
+
         Controls.initializeShuffleboardLogs(logToShuffleboard);
 
         // Add subsystems here
         swerve = activeSubsystemsManager.getSwerve();
         intake = activeSubsystemsManager.getIntake();
+        pivot = activeSubsystemsManager.getPivot();
 
         this.configureBindings(ControlSets.DUAL_DRIVER);
         this.configureDefaults();
@@ -54,7 +59,7 @@ public class RobotContainer {
      */
     private void configureDefaults(){
         // Set the swerve's default command to drive with joysticks
-        setDefaultCommand(swerve, swerve.run(() -> {
+        swerve.setDefaultCommand(swerve.run(() -> {
             swerve.drive(swerve.processJoystickInputs(
                 Controls.driveTranslateX.getAsDouble(),
                 Controls.driveTranslateY.getAsDouble(),
@@ -62,9 +67,7 @@ public class RobotContainer {
             ), DriveModes.AUTOMATIC);
         }).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
-        // setDefaultCommand(intake, intake.run(() -> {
-        //     intake.stop();
-        // }));
+        intake.setStopAsDefaultCommand();
     }
 
     //Any commands that are reused a lot but can't go in a separate class go here
@@ -128,17 +131,21 @@ public class RobotContainer {
             )
         );
 
-        Controls.groundIntake.whileTrue(new GroundIntakeCommand()).whileFalse(
-            intake.runOnce(() -> {intake.stop();})
-        );
+        Controls.stow.onTrue(NewtonCommands.stowCommand());
+        Controls.groundIntake.whileTrue(new GroundIntakeCommand());
+        Controls.hpIntake.whileTrue(new HumanPlayerIntakeCommand());
+        Controls.scoreLow.whileTrue(new ScoreLowCommand());
+        Controls.raisePivot.whileTrue(
+            pivot.run(
+                () -> pivot.setVelocity(Constants.PIVOT.PIVOT_MANUAL_CONTROL_VELOCITY)
+            )
+        ).onFalse(pivot.getStopCommand());
 
-        Controls.hpIntake.whileTrue(new HPIntakeCommand()).whileFalse(
-            intake.runOnce(() -> {intake.stop();})
-        );
-        
-        Controls.score.whileTrue(new ScoreCommand()).whileFalse(
-            intake.runOnce(() -> {intake.stop();})
-        );
+        Controls.lowerPivot.whileTrue(
+            pivot.run(
+                () -> pivot.setVelocity(-Constants.PIVOT.PIVOT_MANUAL_CONTROL_VELOCITY)
+            )
+        ).onFalse(pivot.getStopCommand());
     }
 
     /**
@@ -148,25 +155,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         return AutoManager.getAutonomousCommand();
-    }
-
-    /**
-     * Set the default command of a subsystem (what to run if no other command requiring it is running).
-     * <p> NOTE: all subsystems also have a setDefaultCommand method; this version includes a check for
-     * default commands that cancel incoming commands that require the subsystem. Unless you're sure
-     * of what you're doing, you should use this one.
-     *
-     * @param subsystem the subsystem to apply the default command to
-     * @param command to command to set as default
-     */
-    private void setDefaultCommand(SubsystemBase subsystem, Command command){
-        if(command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf){
-            subsystem.setDefaultCommand(command);
-        }
-        else{
-            //If you want to force-allow setting a cancel-incoming default command, directly call `subsystem.setDefaultCommand()` instead
-            throw new UnsupportedOperationException("Can't set a default command that cancels incoming!");
-        }
     }
 
     /**

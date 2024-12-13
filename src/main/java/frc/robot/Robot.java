@@ -75,6 +75,7 @@ public class Robot extends LoggedRobot {
         CommandScheduler.getInstance().run();
         Controls.logControlsToShuffleboard();
         CLOCK.update();
+        LogUtils.logToSmartDashboard("Clock dt", CLOCK.dt());
     }
 
     /** This function is called once each time the robot enters Disabled mode. */

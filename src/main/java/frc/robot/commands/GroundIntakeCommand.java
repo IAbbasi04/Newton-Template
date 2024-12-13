@@ -1,16 +1,16 @@
 package frc.robot.commands;
 
-import frc.robot.Constants;
+import static frc.robot.commands.NewtonCommands.*;
+
 import frc.robot.commands.proxies.NewtonWrapperCommand;
+import frc.robot.subsystems.PivotSubsystem.Positions;
 
 public class GroundIntakeCommand extends NewtonWrapperCommand {
-    public GroundIntakeCommand() {
+    public GroundIntakeCommand(){
         super(
-            // Set pivot position to the ground position and ...
-            NewtonCommands.setIntakeVelocityCommand( // Set rollers to the intaking velocity
-                Constants.INTAKE.TOP_ROLLER_INTAKE_RPM, 
-                Constants.INTAKE.BOTTOM_ROLLER_INTAKE_RPM
-            )
+            setPivotPositionCommand(Positions.GROUND) // Set the pivot to the ground position
+            .alongWith(setRollerIntaking()) // intake the bucket
+            .andThen(stopSubsystems(manager.getIntake())) // Stop the rollers once finished
         );
     }
 }

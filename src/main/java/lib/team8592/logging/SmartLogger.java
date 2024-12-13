@@ -120,6 +120,14 @@ public class SmartLogger {
     public <T> void log(String key, T value) {
         if (value.getClass() == Pose2d.class) { // Pose 2d
             Logger.recordOutput(name + "/" + key, (Pose2d)value);
+        } else if (value.getClass() == ChassisSpeeds.class) { // Chassis Speeds
+            Logger.recordOutput(name + "/" + key, (ChassisSpeeds)value);
+        } else if (value.getClass() == Double.class) { // double
+            Logger.recordOutput(name + "/" + key, (Double)value);
+        } else if (value.getClass() == Boolean.class) { // boolean
+            Logger.recordOutput(name + "/" + key, (Boolean)value);
+        } else { // Anything else
+            Logger.recordOutput(name + "/" + key, (String)value);
         }
     }
 }

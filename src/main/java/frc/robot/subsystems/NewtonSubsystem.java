@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import lib.team8592.MatchMode;
 import lib.team8592.logging.SmartLogger;
@@ -28,6 +30,39 @@ public abstract class NewtonSubsystem extends SubsystemBase {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    /**
+     * Creates a stop command for this subsystem
+     */
+    public Command getStopCommand() {
+        return this.runOnce(() -> {stop();});
+    }
+
+    /**
+     * Sets the subsystem's stop method as the default command
+     */
+    public void setStopAsDefaultCommand() {
+        this.setDefaultCommand(getStopCommand());
+    }
+    
+    /**
+     * Set the default command of a subsystem (what to run if no other command requiring it is running).
+     * <p> NOTE: all subsystems also have a setDefaultCommand method; this version includes a check for
+     * default commands that cancel incoming commands that require the subsystem. Unless you're sure
+     * of what you're doing, you should use this one.
+     *
+     * @param command to command to set as default
+     */
+    @Override
+    public void setDefaultCommand(Command command) {
+        if(command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf){
+            super.setDefaultCommand(command);
+        }
+        else{
+            //If you want to force-allow setting a cancel-incoming default command, directly call `subsystem.setDefaultCommand()` instead
+            throw new UnsupportedOperationException("Can't set a default command that cancels incoming!");
+        }
     }
 
     @Override
