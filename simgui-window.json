@@ -34,18 +34,31 @@
     },
     "###FMS": {
       "Collapsed": "0",
+<<<<<<< HEAD
       "Pos": "7,767",
+=======
+      "Pos": "6,779",
+>>>>>>> main
       "Size": "169,184"
     },
     "###Joysticks": {
       "Collapsed": "0",
+<<<<<<< HEAD
       "Pos": "1145,929",
+=======
+      "Pos": "1112,928",
+>>>>>>> main
       "Size": "796,240"
     },
     "###NetworkTables": {
       "Collapsed": "0",
+<<<<<<< HEAD
       "Pos": "1467,24",
       "Size": "434,854"
+=======
+      "Pos": "1337,29",
+      "Size": "546,892"
+>>>>>>> main
     },
     "###NetworkTables Info": {
       "Collapsed": "0",
@@ -59,12 +72,20 @@
     },
     "###System Joysticks": {
       "Collapsed": "0",
+<<<<<<< HEAD
       "Pos": "923,784",
+=======
+      "Pos": "914,783",
+>>>>>>> main
       "Size": "217,218"
     },
     "###Timing": {
       "Collapsed": "0",
+<<<<<<< HEAD
       "Pos": "775,807",
+=======
+      "Pos": "761,829",
+>>>>>>> main
       "Size": "141,196"
     },
     "Debug##Default": {

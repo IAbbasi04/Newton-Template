@@ -96,7 +96,7 @@ public class RobotContainer {
             // Similar comment on Commands.runOnce and ignoringDisable as slow mode above
             Commands.runOnce(() -> swerve.setRobotRelative(true)).ignoringDisable(true)
         ).onFalse(
-            Commands.runOnce(() -> swerve.setRobotRelative(true)).ignoringDisable(true)
+            Commands.runOnce(() -> swerve.setRobotRelative(false)).ignoringDisable(true)
         );
 
         Controls.snapForward.whileTrue(

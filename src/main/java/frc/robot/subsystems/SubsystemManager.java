@@ -6,7 +6,7 @@ import java.util.List;
 import edu.wpi.first.wpilibj2.command.*;
 import lib.team8592.MatchMode;
 
-public class SubsystemManager {
+public class SubsystemManager extends SubsystemBase {
     private SwerveSubsystem swerveSubsystem;
     private IntakeSubsystem intakeSubsystem;
     private PivotSubsystem pivotSubsystem;
@@ -50,6 +50,14 @@ public class SubsystemManager {
         return Commands.runOnce(() -> {
             activeSubystems.forEach(s -> s.onInit(mode));
         }, subs);
+    }
+
+    @Override
+    public void periodic() {
+        this.activeSubystems.forEach(s -> {
+            s.periodicLogs();
+            s.periodicOutputs();
+        });
     }
 
     // ==================================== \\

@@ -37,9 +37,12 @@
         "IntakeSubsystem": {
           "open": true
         },
+<<<<<<< HEAD
         "PivotSubsystem": {
           "open": true
         },
+=======
+>>>>>>> main
         "SwerveSubsystem": {
           "open": true
         },

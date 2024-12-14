@@ -218,8 +218,8 @@ public class SwerveSubsystem extends NewtonSubsystem {
             swerve::getCurrentSpeeds, 
             this::drive,
             new HolonomicPathFollowerConfig(
-                Constants.SWERVE.MAX_VELOCITY_METERS_PER_SECOND,
-                Constants.SWERVE.DRIVE_TRAIN_RADIUS,
+                SWERVE.MAX_VELOCITY_METERS_PER_SECOND,
+                SWERVE.DRIVE_TRAIN_RADIUS,
                 new ReplanningConfig()
             ),
         () -> {
@@ -249,21 +249,28 @@ public class SwerveSubsystem extends NewtonSubsystem {
      */
     public void drive(ChassisSpeeds speeds, DriveModes mode){
         this.logger.logEnum("DRIVE MODE", mode);
-        swerve.drive(
-            speeds,
-            switch(mode){
-                case FIELD_RELATIVE:
-                    this.desiredSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(speeds, getYaw());
-                    yield true;
-                case AUTOMATIC:
-                        this.desiredSpeeds = robotRelative ? 
-                            speeds : ChassisSpeeds.fromFieldRelativeSpeeds(speeds, getYaw());
-                    yield !robotRelative;
-                case ROBOT_RELATIVE:
-                    this.desiredSpeeds = speeds;
-                    yield false;
-            }
-        );
+        boolean isFieldRelative;
+        switch(mode){
+            case FIELD_RELATIVE:
+                this.desiredSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(speeds, getYaw());
+                isFieldRelative = true;
+                break;
+            case ROBOT_RELATIVE:
+                this.desiredSpeeds = speeds;
+                isFieldRelative = false;
+                break;
+            default:
+            // Go to automatic mode on default -- Fall through intentional
+            case AUTOMATIC:
+                this.desiredSpeeds = robotRelative ? 
+                    speeds : ChassisSpeeds.fromFieldRelativeSpeeds(speeds, getYaw());
+                isFieldRelative = !robotRelative;
+                break;
+        }
+
+        if (isEnabled()) { // If this subsystem is in the active subsystems list apply speeds
+            swerve.drive(speeds, isFieldRelative);
+        }
     }
 
     /**
