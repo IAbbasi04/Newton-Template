@@ -37,6 +37,9 @@
     },
     "transitory": {
       "Shuffleboard": {
+        "IntakeSubsystem": {
+          "open": true
+        },
         "SwerveSubsystem": {
           "open": true
         },
