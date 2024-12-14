@@ -59,7 +59,7 @@ public class SparkFlexMotorController extends MotorController {
 
     @Override
     public void setVelocity(double desiredVelocityRPM, int pidSlot) {
-        if (motorPIDGains != null) {
+        if (motorPIDGains != null && motorPIDGains.size() > 0) {
             Utils.clamp(
                 desiredVelocityRPM, 
                 -motorPIDGains.get(pidSlot).maxVelocity,
