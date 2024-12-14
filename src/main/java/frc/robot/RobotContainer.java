@@ -13,7 +13,6 @@ import frc.robot.subsystems.SwerveSubsystem.DriveModes;
 import lib.team8592.MatchMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.*;
-import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 
 public class RobotContainer {
     private SubsystemManager activeSubsystemsManager;
@@ -61,10 +60,8 @@ public class RobotContainer {
                 Controls.driveTranslateY.getAsDouble(),
                 Controls.driveRotate.getAsDouble()
             ), DriveModes.AUTOMATIC);
-        }).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        }));
     }
-
-    //Any commands that are reused a lot but can't go in a separate class go here
 
     /**
      * Configure all button bindings

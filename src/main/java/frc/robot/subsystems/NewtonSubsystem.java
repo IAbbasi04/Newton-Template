@@ -56,13 +56,7 @@ public abstract class NewtonSubsystem extends SubsystemBase {
      */
     @Override
     public void setDefaultCommand(Command command) {
-        if(command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf){
-            super.setDefaultCommand(command);
-        }
-        else{
-            //If you want to force-allow setting a cancel-incoming default command, directly call `subsystem.setDefaultCommand()` instead
-            throw new UnsupportedOperationException("Can't set a default command that cancels incoming!");
-        }
+        super.setDefaultCommand(command.withInterruptBehavior(InterruptionBehavior.kCancelSelf));
     }
 
     
