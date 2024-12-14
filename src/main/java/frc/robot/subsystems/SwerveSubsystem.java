@@ -30,8 +30,8 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.*;
 import lib.team8592.MatchMode;
 import lib.team8592.SmoothingFilter;
+import lib.team8592.Utils;
 import lib.team8592.hardware.CTRESwerve;
-import lib.team8592.utils.Utils;
 import frc.robot.Constants.*;
 
 public class SwerveSubsystem extends NewtonSubsystem {
@@ -60,6 +60,8 @@ public class SwerveSubsystem extends NewtonSubsystem {
     private Pose2d resetPose = new Pose2d();
 
     private ChassisSpeeds desiredSpeeds = new ChassisSpeeds();
+
+    private DriveModes driveMode = DriveModes.AUTOMATIC;
 
     protected SwerveSubsystem(boolean logToShuffleboard) {
         super(logToShuffleboard);
@@ -248,7 +250,7 @@ public class SwerveSubsystem extends NewtonSubsystem {
      * @param speeds the speeds to run the drivetrain at
      */
     public void drive(ChassisSpeeds speeds, DriveModes mode){
-        this.logger.logEnum("DRIVE MODE", mode);
+        this.driveMode = mode;
         boolean isFieldRelative;
         switch(mode){
             case FIELD_RELATIVE:
@@ -259,8 +261,7 @@ public class SwerveSubsystem extends NewtonSubsystem {
                 this.desiredSpeeds = speeds;
                 isFieldRelative = false;
                 break;
-            default:
-            // Go to automatic mode on default -- Fall through intentional
+            default: // Go to automatic mode on default -- Fall through intentional
             case AUTOMATIC:
                 this.desiredSpeeds = robotRelative ? 
                     speeds : ChassisSpeeds.fromFieldRelativeSpeeds(speeds, getYaw());
@@ -303,7 +304,7 @@ public class SwerveSubsystem extends NewtonSubsystem {
      * Get the current robot yaw as a Rotation2d
      */
     public Rotation2d getYaw() {
-        if (Robot.isSimulation()) return Robot.FIELD.getRobotPose().getRotation();
+        if (Robot.isSimulation()) return Robot.FIELD.getSimulatedRobotPose().getRotation();
         return swerve.getYaw();
     }
 
@@ -312,7 +313,7 @@ public class SwerveSubsystem extends NewtonSubsystem {
      */
     public Pose2d getCurrentPosition() {
         if (Robot.isSimulation()) {
-            return Robot.FIELD.getRobotPose();
+            return Robot.FIELD.getSimulatedRobotPose();
         }
         return swerve.getCurrentOdometryPosition();
     }
@@ -332,7 +333,7 @@ public class SwerveSubsystem extends NewtonSubsystem {
      * @param pose the pose to set the robot's known position to.
      */
     public void resetPose(Pose2d pose) {
-        if (Robot.isSimulation()) Robot.FIELD.setRobotPose(pose);
+        if (Robot.isSimulation()) Robot.FIELD.setSimulatedRobotPose(pose);
         swerve.setKnownOdometryPose(pose);
         this.resetPose = pose;
     }
@@ -483,16 +484,17 @@ public class SwerveSubsystem extends NewtonSubsystem {
             break;
         }
         
-        Robot.FIELD.setRobotPose(newRobotPose);
+        Robot.FIELD.setSimulatedRobotPose(newRobotPose);
     }
 
     @Override
     public void periodicLogs() {
-        this.logger.logBoolean("Odometry Valid", this.swerve.odometryIsValid());
-        this.logger.logPose2d("Current Robot Pose", this.getCurrentPosition());
-        this.logger.logPose2d("Reset Pose", this.resetPose);
-        this.logger.logChassisSpeeds("Desired Chassis Speeds", this.desiredSpeeds);
-        this.logger.logBoolean("Is Robot Relative", this.robotRelative);
+        this.logger.log("Odometry Valid", this.swerve.odometryIsValid());
+        this.logger.log("Current Robot Pose", this.getCurrentPosition());
+        this.logger.log("Reset Pose", this.resetPose);
+        this.logger.log("Desired Chassis Speeds", this.desiredSpeeds);
+        this.logger.log("Is Robot Relative", this.robotRelative);
+        this.logger.log("Current Drive Mode", driveMode);
     }
 
     /**

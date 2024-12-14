@@ -105,7 +105,7 @@ public final class Controls {
 
         for (Field field : Controls.class.getDeclaredFields()) {
             try {
-                logger.logBoolean(field.getName(), ((Trigger)field.get(null)).getAsBoolean());
+                logger.log(field.getName(), ((Trigger)field.get(null)).getAsBoolean());
             } catch (Exception e) {}
         }
     }

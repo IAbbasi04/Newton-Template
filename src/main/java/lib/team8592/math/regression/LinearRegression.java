@@ -1,6 +1,6 @@
 package lib.team8592.math.regression;
 
-import lib.team8592.utils.Utils;
+import lib.team8592.Utils;
 
 public class LinearRegression extends Regression {
     private double slope, intercept, residual;

@@ -164,7 +164,7 @@ public class FollowPathCommand extends LargeCommand {
         }
 
         if(Robot.isReal()){
-            this.logger.logPose2d("TargetPose", desiredState.poseMeters);
+            this.logger.log("TargetPose", desiredState.poseMeters);
 
             ChassisSpeeds driveSpeeds = drivePID.calculate(
                 swerve.getCurrentPosition(),

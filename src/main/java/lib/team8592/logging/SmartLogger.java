@@ -44,14 +44,14 @@ public class SmartLogger {
     }
 
     public void enable() {
-        this.logToShuffleboard = true;
+        this.enable(true);
     }
 
     public void disable() {
-        this.logToShuffleboard = false;
+        this.enable(false);
     }
 
-    public void logDouble(String key, double value) {
+    public void log(String key, double value) {
         Logger.recordOutput(name + "/" + key, value); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
         if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
@@ -62,7 +62,7 @@ public class SmartLogger {
         }
     }
 
-    public void logString(String key, String value) {
+    public void log(String key, String value) {
         Logger.recordOutput(name + "/" + key, value); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
         if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
@@ -73,7 +73,7 @@ public class SmartLogger {
         }
     }
 
-    public void logBoolean(String key, boolean value) {
+    public void log(String key, boolean value) {
         Logger.recordOutput(name + "/" + key, value); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
         if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
@@ -84,7 +84,7 @@ public class SmartLogger {
         }
     }
 
-    public <E extends Enum<E>> void logEnum(String key, E value) {
+    public <E extends Enum<E>> void log(String key, E value) {
         Logger.recordOutput(name + "/" + key, value.name()); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
         if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
@@ -95,7 +95,7 @@ public class SmartLogger {
         }
     }
 
-    public void logChassisSpeeds(String key, ChassisSpeeds value) {
+    public void log(String key, ChassisSpeeds value) {
         Logger.recordOutput(name + "/" + key, value); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
         if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
@@ -106,7 +106,7 @@ public class SmartLogger {
         }
     }
 
-    public void logPose2d(String key, Pose2d value) {
+    public void log(String key, Pose2d value) {
         Logger.recordOutput(name + "/" + key, value); // Record to AdvantageKit logs
         if (!this.logToShuffleboard) return; // Do not proceed if we do not want to log to shuffleboard
         if (!initialized()) initialize(); // Initialize the shuffleboard tab if not already initialized
@@ -117,17 +117,19 @@ public class SmartLogger {
         }
     }
 
-    public <T> void log(String key, T value) {
-        if (value.getClass() == Pose2d.class) { // Pose 2d
+    public <T> void logValue(String key, T value) {
+        if (value.getClass().equals(Pose2d.class)) { // Pose 2d
             Logger.recordOutput(name + "/" + key, (Pose2d)value);
-        } else if (value.getClass() == ChassisSpeeds.class) { // Chassis Speeds
+        } else if (value.getClass().equals(ChassisSpeeds.class)) { // Chassis Speeds
             Logger.recordOutput(name + "/" + key, (ChassisSpeeds)value);
-        } else if (value.getClass() == Double.class) { // double
+        } else if (value.getClass().equals(Double.class)) { // double
             Logger.recordOutput(name + "/" + key, (Double)value);
-        } else if (value.getClass() == Boolean.class) { // boolean
+        } else if (value.getClass().equals(Boolean.class)) { // boolean
             Logger.recordOutput(name + "/" + key, (Boolean)value);
-        } else { // Anything else
+        } else if (value.getClass().equals(String.class)) { // String
             Logger.recordOutput(name + "/" + key, (String)value);
+        } else { // Enum or anything not mentioned
+            Logger.recordOutput(name + "/" + key, value.toString());
         }
     }
 }

@@ -8,7 +8,7 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.AccelStrategy;
 
 import lib.team8592.PIDGainsProfile;
-import lib.team8592.utils.Utils;
+import lib.team8592.Utils;
 
 public class SparkMaxMotorController extends MotorController {
     public CANSparkMax motor; // Made public so it can be accessed as a follower

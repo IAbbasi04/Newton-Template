@@ -7,7 +7,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import lib.team8592.PIDGainsProfile;
-import lib.team8592.utils.Utils;
+import lib.team8592.Utils;
 
 public class TalonFXMotorController extends MotorController {
     public TalonFX motor; // Made public so it can be accessed as a follower

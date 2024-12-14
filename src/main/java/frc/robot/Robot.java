@@ -6,12 +6,12 @@ package frc.robot;
 
 import org.littletonrobotics.junction.LoggedRobot;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 import lib.team8592.MatchMode;
 import lib.team8592.RobotClock;
-import lib.team8592.utils.LogUtils;
-import lib.team8592.utils.LogUtils.LogConstants;
+import lib.team8592.field.FieldLayout;
+import lib.team8592.logging.LogUtils;
+import lib.team8592.logging.LogUtils.LogConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,9 +26,9 @@ public class Robot extends LoggedRobot {
     private Command autonomousCommand;
     private RobotContainer robotContainer;
 
-    public static Field2d FIELD = new Field2d();
     public static MatchMode MODE = MatchMode.DISABLED;
     public static RobotClock CLOCK = new RobotClock();
+    public static FieldLayout FIELD = FieldLayout.none();
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -43,14 +43,11 @@ public class Robot extends LoggedRobot {
             Constants.LOGGER.ROBOT, 
             Constants.LOGGER.TEAM
         ));
-        
-        this.robotContainer = new RobotContainer(!DriverStation.isFMSAttached());
-        
-        if (robotContainer.logToShuffleboard()) {
-            SmartDashboard.putData(FIELD);
-        }
 
+        this.robotContainer = new RobotContainer(!DriverStation.isFMSAttached());
         this.robotContainer.getInitCommand(MODE);
+
+        FIELD.logField(robotContainer.logToShuffleboard());
     }
 
     /**

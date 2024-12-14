@@ -7,7 +7,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
 import lib.team8592.PIDGainsProfile;
-import lib.team8592.utils.Utils;
+import lib.team8592.Utils;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController.AccelStrategy;
