@@ -11,6 +11,7 @@ public class RobotClock extends Timer {
     }
 
     public void update() {
+        super.start();
         lastTime = curTime;
         curTime = get();
     }

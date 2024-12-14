@@ -20,4 +20,9 @@ public class Ports {
     public static final int PIGEON_CAN_ID = 20;
 
     public static final int PDH_CAN_ID = 1;
+
+    public static final int INTAKE_TOP_ROLLER_CAN_ID = 29;
+    public static final int INTAKE_BOTTOM_ROLLER_CAN_ID = 31;
+
+    public static final int PIVOT_CAN_ID = 30;
 }

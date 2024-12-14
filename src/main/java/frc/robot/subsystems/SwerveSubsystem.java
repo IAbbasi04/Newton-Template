@@ -35,12 +35,6 @@ import lib.team8592.utils.Utils;
 import frc.robot.Constants.*;
 
 public class SwerveSubsystem extends NewtonSubsystem {
-    private static SwerveSubsystem instance = null;
-    protected static SwerveSubsystem getInstance() {
-        if (instance == null) instance = new SwerveSubsystem(false);
-        return instance;
-    }
-
     /**
      * Small enum to control whether to drive robot- or field-
      * relative for {@link SwerveSubsystem#drive(ChassisSpeeds, DriveModes)}
@@ -131,8 +125,8 @@ public class SwerveSubsystem extends NewtonSubsystem {
                 .withDriveMotorClosedLoopOutput(ClosedLoopOutputType.Voltage)
                 .withSteerMotorClosedLoopOutput(ClosedLoopOutputType.Voltage)
                 .withSpeedAt12VoltsMps(SWERVE.MAX_TRANSLATIONAL_VELOCITY_METERS_PER_SECOND)
-                .withDriveInertia(SWERVE.SIMULATED_DRIVE_INERTIA)
-                .withSteerInertia(SWERVE.SIMULATED_STEER_INERTIA)
+                .withDriveInertia(SIMULATION.SIMULATED_DRIVE_INERTIA)
+                .withSteerInertia(SIMULATION.SIMULATED_STEER_INERTIA)
                 .withDriveFrictionVoltage(SWERVE.DRIVE_FRICTION_VOLTAGE)
                 .withSteerFrictionVoltage(SWERVE.STEER_FRICTION_VOLTAGE)
                 .withFeedbackSource(SteerFeedbackType.RemoteCANcoder)
@@ -498,6 +492,7 @@ public class SwerveSubsystem extends NewtonSubsystem {
         this.logger.logPose2d("Current Robot Pose", this.getCurrentPosition());
         this.logger.logPose2d("Reset Pose", this.resetPose);
         this.logger.logChassisSpeeds("Desired Chassis Speeds", this.desiredSpeeds);
+        this.logger.logBoolean("Is Robot Relative", this.robotRelative);
     }
 
     /**

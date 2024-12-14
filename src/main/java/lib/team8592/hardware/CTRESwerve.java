@@ -151,7 +151,7 @@ public class CTRESwerve extends SwerveDrivetrain{
             /* use the measured time delta, get battery voltage from WPILib */
             updateSimState(deltaTime, RobotController.getBatteryVoltage());
         });
-        m_simNotifier.startPeriodic(SWERVE.SIMULATION_LOOP_PERIOD);
+        m_simNotifier.startPeriodic(0.005);
     }
 
     public void periodic() {

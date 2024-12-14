@@ -9,11 +9,11 @@ import frc.robot.Constants.CONTROLLERS;
 import lib.team8592.logging.SmartLogger;
 
 public final class Controls {
-    protected static final CommandXboxController driverController = new CommandXboxController(
+    private static final CommandXboxController driverController = new CommandXboxController(
         CONTROLLERS.DRIVER_PORT
     );
 
-    protected static final CommandXboxController operatorController = new CommandXboxController(
+    private static final CommandXboxController operatorController = new CommandXboxController(
         CONTROLLERS.OPERATOR_PORT
     );
 
@@ -108,5 +108,13 @@ public final class Controls {
                 logger.logBoolean(field.getName(), ((Trigger)field.get(null)).getAsBoolean());
             } catch (Exception e) {}
         }
+    }
+
+    protected static CommandXboxController getDriver() {
+        return driverController;
+    }
+
+    protected static CommandXboxController getOperator() {
+        return operatorController;
     }
 }

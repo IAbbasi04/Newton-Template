@@ -22,6 +22,11 @@ public final class Constants {
     public final class SIMULATION {
         public static final double SWERVE_TRANSLATE_DELTA = 0.02; // How much to update the translational velocity of the swerve in simulation
         public static final double SWERVE_ROTATE_DELTA = 0.02; // How much to update the rotational velocity of the swerve in simulation
+        
+        public static final double SIMULATED_STEER_INERTIA = 0.00001;
+        public static final double SIMULATED_DRIVE_INERTIA = 0.06;
+        
+        public static final double SIMULATION_LOOP_PERIOD = 0.005;
     }
 
     public final class CONVERSIONS {
@@ -91,9 +96,6 @@ public final class Constants {
         public static final boolean INVERT_LEFT_SIDE = false;
         public static final boolean INVERT_RIGHT_SIDE = true;
 
-        public static final double SIMULATED_STEER_INERTIA = 0.00001;
-        public static final double SIMULATED_DRIVE_INERTIA = 0.06;
-        public static final double SIMULATION_LOOP_PERIOD = 0.005;
         public static final double STEER_FRICTION_VOLTAGE = 0.25;
         public static final double DRIVE_FRICTION_VOLTAGE = 0.25;
 

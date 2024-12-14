@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Controls.ControlSets;
 import frc.robot.autonomous.AutoManager;
 import frc.robot.commands.*;
+import frc.robot.commands.proxies.NewtonWrapperCommand;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.SwerveSubsystem.DriveModes;
 import lib.team8592.MatchMode;
@@ -16,8 +17,9 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 
 public class RobotContainer {
     private SubsystemManager activeSubsystemsManager;
-    private boolean logToShuffleboard = false;
     private SwerveSubsystem swerve;
+
+    private boolean logToShuffleboard = false;
 
     /**
      * Create the robot container. This creates and configures subsystems, sets
@@ -26,13 +28,15 @@ public class RobotContainer {
     public RobotContainer(boolean logToShuffleboard) {
         this.activeSubsystemsManager = new SubsystemManager(logToShuffleboard);
         this.logToShuffleboard = logToShuffleboard;
+        
+        NewtonCommands.initialize(activeSubsystemsManager);
+        NewtonWrapperCommand.initialize(activeSubsystemsManager);
+        AutoManager.prepare(activeSubsystemsManager);
+
+        Controls.initializeShuffleboardLogs(logToShuffleboard);
 
         // Add subsystems here
         swerve = activeSubsystemsManager.getSwerve();
-        
-        Controls.initializeShuffleboardLogs(logToShuffleboard);
-        AutoManager.prepare(activeSubsystemsManager);
-        NewtonCommands.initialize(activeSubsystemsManager);
 
         this.configureBindings(ControlSets.DUAL_DRIVER);
         this.configureDefaults();
@@ -51,7 +55,7 @@ public class RobotContainer {
      */
     private void configureDefaults(){
         // Set the swerve's default command to drive with joysticks
-        setDefaultCommand(swerve, swerve.run(() -> {
+        swerve.setDefaultCommand(swerve.run(() -> {
             swerve.drive(swerve.processJoystickInputs(
                 Controls.driveTranslateX.getAsDouble(),
                 Controls.driveTranslateY.getAsDouble(),
@@ -129,25 +133,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         return AutoManager.getAutonomousCommand();
-    }
-
-    /**
-     * Set the default command of a subsystem (what to run if no other command requiring it is running).
-     * <p> NOTE: all subsystems also have a setDefaultCommand method; this version includes a check for
-     * default commands that cancel incoming commands that require the subsystem. Unless you're sure
-     * of what you're doing, you should use this one.
-     *
-     * @param subsystem the subsystem to apply the default command to
-     * @param command to command to set as default
-     */
-    private void setDefaultCommand(SubsystemBase subsystem, Command command){
-        if(command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf){
-            subsystem.setDefaultCommand(command);
-        }
-        else{
-            //If you want to force-allow setting a cancel-incoming default command, directly call `subsystem.setDefaultCommand()` instead
-            throw new UnsupportedOperationException("Can't set a default command that cancels incoming!");
-        }
     }
 
     /**
