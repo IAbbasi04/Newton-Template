@@ -492,6 +492,7 @@ public class SwerveSubsystem extends NewtonSubsystem {
         this.logger.logPose2d("Current Robot Pose", this.getCurrentPosition());
         this.logger.logPose2d("Reset Pose", this.resetPose);
         this.logger.logChassisSpeeds("Desired Chassis Speeds", this.desiredSpeeds);
+        this.logger.logBoolean("Is Robot Relative", this.robotRelative);
     }
 
     /**

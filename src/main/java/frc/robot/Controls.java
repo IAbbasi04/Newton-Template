@@ -44,15 +44,6 @@ public final class Controls {
     protected static Trigger snapLeft = new Trigger(() -> false);
     protected static Trigger snapRight = new Trigger(() -> false);
 
-    protected static Trigger groundIntake = new Trigger(() -> false);
-    protected static Trigger hpIntake = new Trigger(() -> false);
-    protected static Trigger scoreLow = new Trigger(() -> false);
-
-    protected static Trigger stow = new Trigger(() -> false);
-
-    protected static Trigger raisePivot = new Trigger(() -> false);
-    protected static Trigger lowerPivot = new Trigger(() -> false);
-
     /**
      * Sets the controls for the drivebase movement
      */
@@ -61,8 +52,8 @@ public final class Controls {
         driveTranslateY = () -> -driverController.getLeftY();
         driveRotate = () -> -driverController.getRightX();
 
-        // slowMode = driverController.rightBumper();
-        // robotRelative = driverController.leftBumper();
+        slowMode = driverController.rightBumper();
+        robotRelative = driverController.leftBumper();
         zeroGryoscope = driverController.back();
 
         snapForward = driverController.pov(0);
@@ -81,13 +72,6 @@ public final class Controls {
         Controls.applyDrivetrainControls();
 
         // Add controls that do not rely on control set below
-        groundIntake = driverController.leftTrigger();
-        hpIntake = driverController.leftBumper();
-        scoreLow = driverController.rightTrigger();
-
-        raisePivot = operatorController.povUp();
-        lowerPivot = operatorController.povDown();
-        stow = driverController.a().or(operatorController.a());
 
         // Use the controls set if we have differentiating inputs for a certain control
         // i.e. if single driver intaking is driver left trigger whereas 

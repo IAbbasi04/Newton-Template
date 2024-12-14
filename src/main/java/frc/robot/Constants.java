@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.apriltag.*;
 import edu.wpi.first.math.geometry.*;
-import lib.team8592.PIDGainsProfile;
 
 public final class Constants {
     public final class SHARED {
@@ -28,10 +27,6 @@ public final class Constants {
         public static final double SIMULATED_DRIVE_INERTIA = 0.06;
         
         public static final double SIMULATION_LOOP_PERIOD = 0.005;
-    
-        public static final double PIVOT_GROUND_TO_REST_MOVE_TIME = 0.75; // Simulated time (sec) for the pivot to move to target position
-        public static final double INTAKE_SPEED_UP_TIME = 0.2; // Simulated time (sec) for the intake rollers to hit target velocity
-        
     }
 
     public final class CONVERSIONS {
@@ -63,94 +58,6 @@ public final class Constants {
         public static final int SWERVE_MAX_VOLTAGE = 12;
         public static final int SWERVE_DRIVE_CURRENT_LIMIT = 80;
         public static final int SWERVE_STEER_CURRENT_LIMIT = 40;
-    }
-
-    public final class PIVOT {
-        public static final double GROUND_DEGREES = 0.0;
-        public static final double REST_DEGREES = 90.0;
-        public static final double SCORE_HIGH_DEGREES = 75.0;
-        public static final double HP_LOAD_DEGREES = 20.0;
-        public static final double KNOCK_OVER_DEGREES = 14.0;
-        public static final double SCORE_LOW_DEGREES = 10.0;
-        public static final double SCORE_GRID_DEGREES = 10.0;
-
-        public static final double AT_TARGET_TOLERANCE = 2.0; // degrees
-
-        public static final double ABSOLUTE_ENCODER_OFFSET = 0; // rotations
-
-        public static final double PIVOT_MANUAL_CONTROL_VELOCITY = 1000d; // RPM
-
-        /**
-         * 125:1 REV gearbox ratio
-         * 36:15 pivot sprocket ratio
-         * 
-         * 300:1 total motor to pivot ratio
-         * 
-         * This means that to turn the pivot 90 degrees (1/4 rotations) 
-         * the motor has to spin (90 / 360 * 300) = 75 rotations
-         */
-        public static final double GEARBOX_RATIO = (125d / 1d) * (36d / 15d);
-
-        /**
-         * Converts from the given pivot degrees to the motor equivalent in rotations
-         */
-        public static double degreesToMotorRotations(double pivotDegrees) {
-            return (pivotDegrees / 360d) * Constants.PIVOT.GEARBOX_RATIO;
-        }
-
-        /**
-         * Converts from the given motor rotations to the pivot equivalent in degrees
-         */
-        public static double motorRotationsToDegrees(double rotations) {
-            return (rotations * 360d) / Constants.PIVOT.GEARBOX_RATIO;
-        }
-
-        public static final double MAX_DEGREES = 90d;
-        public static final double MIN_DEGREES = 0d;
-
-        public static final double MIN_ROTATIONS = 
-            degreesToMotorRotations(MIN_DEGREES);
-
-        public static final double MAX_ROTATIONS = 
-            degreesToMotorRotations(MAX_DEGREES);
-
-        public static final PIDGainsProfile RAISE_GAINS = new PIDGainsProfile()
-            .setP(2e-4)
-            .setFF(1.5e-4)
-            .setMaxVelocity(5000) // RPM
-            .setMaxAcceleration(12000) // RPM/s
-            .setSoftLimits(MIN_ROTATIONS, MAX_ROTATIONS) // rotations
-            .setSlot(0);
-
-        public static final PIDGainsProfile LOWER_GAINS = new PIDGainsProfile()
-            .setP(2e-4)
-            .setFF(1.5e-4)
-            .setMaxVelocity(5000) // RPM
-            .setMaxAcceleration(7000) // RPM/s
-            .setSoftLimits(MIN_ROTATIONS, MAX_ROTATIONS) // rotations
-            .setSlot(1);
-    }
-
-    public final class INTAKE {
-        public static final double TOP_INTAKING_RPM = 5000;
-        public static final double TOP_OUTTAKING_RPM = -3000;
-        public static final double TOP_SCORING_RPM = -3000;
-
-        public static final double BOTTOM_INTAKING_RPM = 5000;
-        public static final double BOTTOM_OUTTAKING_RPM = -3000;
-        public static final double BOTTOM_SCORING_RPM = -3000;
-
-        public static final double SCORE_TIME = 0.5; // seconds
-
-        public static final PIDGainsProfile TOP_ROLLER_GAINS = new PIDGainsProfile()
-            .setP(0.01)
-            .setFF(0.05)
-            .setSlot(0);
-
-        public static final PIDGainsProfile BOTTOM_ROLLER_GAINS = new PIDGainsProfile()
-            .setP(0.01)
-            .setFF(0.05)
-            .setSlot(0);
     }
 
     public final class SWERVE {

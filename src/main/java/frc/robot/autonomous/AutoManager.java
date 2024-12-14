@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
 import frc.robot.autonomous.autos.DefaultAuto;
-import frc.robot.autonomous.autos.ScorePreloadAuto;
 import frc.robot.commands.proxies.*;
 import frc.robot.subsystems.SubsystemManager;
 
@@ -38,7 +37,6 @@ public final class AutoManager {
 
         // autoCommands.add(new ExampleAuto());
         // TODO: Add autos here like example above
-        autoCommands.add(new ScorePreloadAuto());
 
         AutoManager.autoChooser = new SendableChooser<>();
         AutoManager.autoChooser.setDefaultOption("DEFAULT - DO NOTHING", new DefaultAuto());

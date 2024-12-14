@@ -16,77 +16,56 @@
   },
   "Table": {
     "0x542B5671,2": {
-      "Column 0  Width": "199",
-      "Column 1  Width": "211",
+      "Column 0  Width": "346",
+      "Column 1  Width": "423",
       "RefScale": "13"
     }
   },
   "Window": {
     "###/Shuffleboard/Autonomous Config/SendableChooser[0]": {
       "Collapsed": "0",
-      "Pos": "1144,871",
+      "Pos": "6,730",
       "Size": "254,54"
     },
     "###/SmartDashboard/Field": {
       "Collapsed": "0",
-      "Pos": "103,24",
-      "Size": "1358,700"
+      "Pos": "101,22",
+      "Size": "1128,586"
     },
     "###FMS": {
       "Collapsed": "0",
-<<<<<<< HEAD
-      "Pos": "7,767",
-=======
-      "Pos": "6,779",
->>>>>>> main
+      "Pos": "1,789",
       "Size": "169,184"
     },
     "###Joysticks": {
       "Collapsed": "0",
-<<<<<<< HEAD
-      "Pos": "1145,929",
-=======
-      "Pos": "1112,928",
->>>>>>> main
+      "Pos": "288,767",
       "Size": "796,240"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-<<<<<<< HEAD
-      "Pos": "1467,24",
-      "Size": "434,854"
-=======
-      "Pos": "1337,29",
-      "Size": "546,892"
->>>>>>> main
+      "Pos": "1238,25",
+      "Size": "668,901"
     },
     "###NetworkTables Info": {
       "Collapsed": "0",
-      "Pos": "1171,856",
-      "Size": "750,145"
+      "Pos": "1457,937",
+      "Size": "164,32"
     },
     "###Other Devices": {
       "Collapsed": "0",
-      "Pos": "1025,20",
-      "Size": "250,695"
+      "Pos": "1457,974",
+      "Size": "269,32"
     },
     "###System Joysticks": {
       "Collapsed": "0",
-<<<<<<< HEAD
-      "Pos": "923,784",
-=======
-      "Pos": "914,783",
->>>>>>> main
+      "Pos": "865,789",
       "Size": "217,218"
     },
     "###Timing": {
       "Collapsed": "0",
-<<<<<<< HEAD
-      "Pos": "775,807",
-=======
-      "Pos": "761,829",
->>>>>>> main
-      "Size": "141,196"
+      "Pos": "1089,835",
+      "Size": "141,173"
     },
     "Debug##Default": {
       "Collapsed": "0",
@@ -95,7 +74,7 @@
     },
     "Robot State": {
       "Collapsed": "0",
-      "Pos": "3,24",
+      "Pos": "5,20",
       "Size": "92,116"
     }
   }

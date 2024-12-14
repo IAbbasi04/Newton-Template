@@ -8,20 +8,15 @@ import lib.team8592.MatchMode;
 
 public class SubsystemManager extends SubsystemBase {
     private SwerveSubsystem swerveSubsystem;
-    private IntakeSubsystem intakeSubsystem;
-    private PivotSubsystem pivotSubsystem;
 
     private List<NewtonSubsystem> activeSubystems = new ArrayList<>();
 
     public SubsystemManager(boolean logToShuffleboard) {
         this.swerveSubsystem = new SwerveSubsystem(logToShuffleboard);
-        this.intakeSubsystem = new IntakeSubsystem(logToShuffleboard);
-        this.pivotSubsystem = new PivotSubsystem(logToShuffleboard);
 
         this.activeSubystems = List.of(
             // Add all active subsystems here
-            swerveSubsystem,
-            intakeSubsystem
+            swerveSubsystem
         );
 
         this.activeSubystems.forEach(s -> {
@@ -66,13 +61,5 @@ public class SubsystemManager extends SubsystemBase {
 
     public SwerveSubsystem getSwerve() {
         return this.swerveSubsystem;
-    }
-
-    public IntakeSubsystem getIntake() {
-        return this.intakeSubsystem;
-    }
-
-    public PivotSubsystem getPivot() {
-        return this.pivotSubsystem;
     }
 }

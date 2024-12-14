@@ -18,8 +18,6 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 public class RobotContainer {
     private SubsystemManager activeSubsystemsManager;
     private SwerveSubsystem swerve;
-    private IntakeSubsystem intake;
-    private PivotSubsystem pivot;
 
     private boolean logToShuffleboard = false;
 
@@ -39,8 +37,6 @@ public class RobotContainer {
 
         // Add subsystems here
         swerve = activeSubsystemsManager.getSwerve();
-        intake = activeSubsystemsManager.getIntake();
-        pivot = activeSubsystemsManager.getPivot();
 
         this.configureBindings(ControlSets.DUAL_DRIVER);
         this.configureDefaults();
@@ -66,8 +62,6 @@ public class RobotContainer {
                 Controls.driveRotate.getAsDouble()
             ), DriveModes.AUTOMATIC);
         }).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-
-        intake.setStopAsDefaultCommand();
     }
 
     //Any commands that are reused a lot but can't go in a separate class go here
@@ -130,22 +124,6 @@ public class RobotContainer {
                 Controls.driveTranslateY
             )
         );
-
-        Controls.stow.onTrue(NewtonCommands.stowCommand());
-        Controls.groundIntake.whileTrue(new GroundIntakeCommand());
-        Controls.hpIntake.whileTrue(new HumanPlayerIntakeCommand());
-        Controls.scoreLow.whileTrue(new ScoreLowCommand());
-        Controls.raisePivot.whileTrue(
-            pivot.run(
-                () -> pivot.setVelocity(Constants.PIVOT.PIVOT_MANUAL_CONTROL_VELOCITY)
-            )
-        ).onFalse(pivot.getStopCommand());
-
-        Controls.lowerPivot.whileTrue(
-            pivot.run(
-                () -> pivot.setVelocity(-Constants.PIVOT.PIVOT_MANUAL_CONTROL_VELOCITY)
-            )
-        ).onFalse(pivot.getStopCommand());
     }
 
     /**

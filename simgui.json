@@ -1,11 +1,4 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "window": {
-        "visible": false
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -34,21 +27,9 @@
   "NetworkTables": {
     "transitory": {
       "Shuffleboard": {
-        "IntakeSubsystem": {
-          "open": true
-        },
-<<<<<<< HEAD
-        "PivotSubsystem": {
-          "open": true
-        },
-=======
->>>>>>> main
         "SwerveSubsystem": {
           "open": true
         },
-        "open": true
-      },
-      "SmartDashboard": {
         "open": true
       }
     }
