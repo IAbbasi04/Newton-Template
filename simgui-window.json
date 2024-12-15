@@ -24,7 +24,12 @@
   "Window": {
     "###/Shuffleboard/Autonomous Config/SendableChooser[0]": {
       "Collapsed": "0",
-      "Pos": "6,730",
+      "Pos": "2,733",
+      "Size": "254,54"
+    },
+    "###/Shuffleboard/Autonomous Config/SendableChooser[1]": {
+      "Collapsed": "0",
+      "Pos": "3,730",
       "Size": "254,54"
     },
     "###/SmartDashboard/Field": {
@@ -40,7 +45,7 @@
     "###Joysticks": {
       "Collapsed": "0",
       "Pos": "288,767",
-      "Size": "796,240"
+      "Size": "796,73"
     },
     "###NetworkTables": {
       "Collapsed": "0",
@@ -60,7 +65,7 @@
     "###System Joysticks": {
       "Collapsed": "0",
       "Pos": "865,789",
-      "Size": "217,218"
+      "Size": "192,218"
     },
     "###Timing": {
       "Collapsed": "0",

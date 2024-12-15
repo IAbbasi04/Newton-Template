@@ -2,6 +2,7 @@ package lib.team8592.logging;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
@@ -10,7 +11,8 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.robot.Suppliers;
 
 public class LogUtils {
@@ -21,6 +23,25 @@ public class LogUtils {
             this.year = year;
             this.robot = robot;
             this.team = team;
+        }
+    }
+
+    public static class WidgetProfile {
+        public int height = 0;
+        public int width = 0;
+        public int column = 0;
+        public int row = 0;
+
+        public WidgetProfile withPosition(int column, int row) {
+            this.column = column;
+            this.row = row;
+            return this;
+        }
+
+        public WidgetProfile withSize(int width, int height) {
+            this.width = width;
+            this.height = height;
+            return this;
         }
     }
     
@@ -54,5 +75,22 @@ public class LogUtils {
 
     public static void logSendable(Sendable sendable) {
         SmartDashboard.putData(sendable);
+    }
+
+    public static void addSendable(String tabName, Sendable sendable) {
+        Shuffleboard.getTab(tabName).add(sendable);
+    }
+
+    public static void addSendable(String tabName, Sendable sendable, WidgetProfile constants) {
+        Shuffleboard.getTab(tabName).add(sendable).withPosition(constants.column, constants.row);
+    }
+
+    public static <T> SendableChooser<T> createSendableChooserWithDefault(T defaultChoice, List<T> choices) {
+        SendableChooser<T> chooser = new SendableChooser<>();
+        chooser.setDefaultOption(defaultChoice.toString(), defaultChoice);
+        for (T choice : choices) {
+            chooser.addOption(choice.toString(), choice);
+        }
+        return chooser;
     }
 }
