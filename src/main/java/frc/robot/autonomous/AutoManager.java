@@ -4,15 +4,16 @@
 
 package frc.robot.autonomous;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
-import frc.robot.autonomous.autos.DefaultAuto;
+import frc.robot.autonomous.autos.*;
 import frc.robot.commands.proxies.*;
 import frc.robot.subsystems.SubsystemManager;
+import lib.team8592.logging.LogUtils;
+import lib.team8592.logging.LogUtils.WidgetProfile;
 
 /**
  * General class for autonomous management (loading autos, sending the chooser, getting the
@@ -20,7 +21,6 @@ import frc.robot.subsystems.SubsystemManager;
  */
 public final class AutoManager {
     private static SendableChooser<AutoCommand> autoChooser;
-    private static ArrayList<AutoCommand> autoCommands = new ArrayList<>();
     private static SubsystemManager manager;
 
     /**
@@ -32,22 +32,21 @@ public final class AutoManager {
      * this function will have relatively long delays due to loading paths.
      */
     public static void prepare(SubsystemManager manager){
-        AutoManager.autoCommands = new ArrayList<>();
         AutoManager.manager = manager;
+        autoChooser = LogUtils.createSendableChooserWithDefault(
+            AutoCommand.getDefaultAuto(), 
+            List.of(
+                // Add all autos here
+                new BasicRandomAuto()
+            )
+        );
 
-        // autoCommands.add(new ExampleAuto());
-        // TODO: Add autos here like example above
-
-        AutoManager.autoChooser = new SendableChooser<>();
-        AutoManager.autoChooser.setDefaultOption("DEFAULT - DO NOTHING", new DefaultAuto());
-        for(AutoCommand c : autoCommands){
-            autoChooser.addOption(
-                c.getAutoName()+(
-                    c.getStartPose() == null ? " (WARNING: NO START POSE)" : ""
-                ), c
-            );
-        }
-        Shuffleboard.getTab("Autonomous Config").add(autoChooser);
+        LogUtils.addSendable("Autonomous Config", 
+            autoChooser, 
+            new WidgetProfile()
+                .withPosition(4, 2)
+                .withSize(3, 2)
+        );
     }
 
     /**
@@ -57,7 +56,7 @@ public final class AutoManager {
      */
     public static Command getAutonomousCommand(){
         AutoCommand autoCommand = autoChooser.getSelected();
-
+        manager.getSwerve().resetPose(autoCommand.getStartPose());
         return manager.onAutonomousInitCommand().andThen(
             // If we don't keep this command from registering as composed,
             // the code will crash if we try to run an auto twice without

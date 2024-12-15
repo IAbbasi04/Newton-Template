@@ -11,7 +11,6 @@ import frc.robot.subsystems.SwerveSubsystem.DriveModes;
 public final class NewtonCommands {
     private static SubsystemManager manager;
 
-
     public static void initialize(SubsystemManager manager) {
         NewtonCommands.manager = manager;
     }

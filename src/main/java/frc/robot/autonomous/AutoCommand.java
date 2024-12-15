@@ -6,7 +6,6 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.*;
 
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.autonomous.autos.DefaultAuto;
 import frc.robot.commands.proxies.NewtonWrapperCommand;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -50,6 +49,12 @@ public abstract class AutoCommand extends NewtonWrapperCommand {
         this.name = getName();
     }
 
+    protected AutoCommand(String filePath) {
+        super(new PathPlannerAuto(filePath));
+        this.autoCommand = new PathPlannerAuto(filePath);
+        this.name = filePath;
+    }
+
     /**
      * {@link Commands#none()} as an {@link AutoCommand}
      */
@@ -72,10 +77,27 @@ public abstract class AutoCommand extends NewtonWrapperCommand {
      * @param file path without the .auto extension (ex. "ExamplePreloadTwoGamePieceAuto")
      */
     public static AutoCommand createAutoFromPathPlanner(String file) {
-        return new DefaultAuto().append(
-            new PathPlannerAuto(file)
-        ).setStartStateFromPathPlannerTrajectory(file)
-        .setAutoName(file);
+        return new AutoCommand(file) {
+            @Override
+            public Pose2d getStartPose() {
+                return PathPlannerAuto.getStaringPoseFromAutoFile(file);
+            }
+        };
+    }
+
+    public static AutoCommand getDefaultAuto() {
+        return new AutoCommand() {
+            @Override
+            public Pose2d getStartPose() {
+                return new Pose2d();
+            }
+
+            @Override
+            public String toString() {
+                this.setAutoName("DEFAULT - DO NOTHING");
+                return getAutoName();
+            }
+        };
     }
 
     /**
@@ -197,4 +219,9 @@ public abstract class AutoCommand extends NewtonWrapperCommand {
     }
 
     public abstract Pose2d getStartPose();
+
+    @Override
+    public String toString() {
+        return getAutoName();
+    }
 }

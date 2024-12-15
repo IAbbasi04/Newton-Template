@@ -8,6 +8,7 @@ import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
 public class SmartLogger {
@@ -28,27 +29,35 @@ public class SmartLogger {
         this(name, true);
     }
 
-    public void initialize() {
+    public SmartLogger initialize() {
         if (logToShuffleboard && !initialized()) {
             this.shuffleboardTab = Shuffleboard.getTab(name);
             this.initialized = true;
         }
+
+        return this;
     }
 
     public boolean initialized() {
         return initialized;
     }
 
-    public void enable(boolean enable) {
+    public SmartLogger enable(boolean enable) {
         this.logToShuffleboard = enable;
+        return this;
     }
 
-    public void enable() {
-        this.enable(true);
+    public SmartLogger enable() {
+        return this.enable(true);
     }
 
-    public void disable() {
-        this.enable(false);
+    public SmartLogger disable() {
+        return this.enable(false);
+    }
+
+    public SmartLogger addSendable(Sendable sendable) {
+        this.shuffleboardTab.add(sendable);
+        return this;
     }
 
     public void log(String key, double value) {
