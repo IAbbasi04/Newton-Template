@@ -41,7 +41,7 @@ public abstract class FieldLayout {
         return this.field;
     }
 
-    public void logField(boolean log) {
+    public void logToShuffleboard(boolean log) {
         if (log) LogUtils.logSendable(field);
     }
 

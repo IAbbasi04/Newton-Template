@@ -142,7 +142,7 @@ public class RobotContainer {
     /**
      * Runs the onInit() method for each active subsystem based on the given mode
      */
-    public Command getInitCommand(MatchMode mode) {
-        return activeSubsystemsManager.onInitCommand(mode);
+    public void runSubsystemsInit(MatchMode mode) {
+        activeSubsystemsManager.onInit(mode);
     }
 }

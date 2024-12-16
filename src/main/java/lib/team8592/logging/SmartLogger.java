@@ -1,7 +1,10 @@
 package lib.team8592.logging;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.List;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -27,6 +30,27 @@ public class SmartLogger {
 
     public SmartLogger(String name) {
         this(name, true);
+    }
+
+    public ShuffleboardTab getShuffleboardTab() {
+        return this.shuffleboardTab;
+    }
+
+    public List<GenericEntry> getAllLoggedEntries() {
+        List<GenericEntry> entries = new ArrayList<>();
+        for (String key : Collections.list(cards.keys())) {
+            entries.add(cards.get(key));
+        }
+        return entries;
+    }
+
+    public GenericEntry getEntry(String name) {
+        for (String key : Collections.list(cards.keys())) {
+            if (key.equals(name)) {
+                return cards.get(key);
+            }
+        }
+        return null;
     }
 
     public SmartLogger initialize() {

@@ -2,8 +2,12 @@ package lib.team8592;
 
 import edu.wpi.first.math.controller.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.util.sendable.*;
+import lib.team8592.logging.SmartLogger;
 
-public class PIDGainsProfile {
+public class PIDGainsProfile implements Sendable {
+    private SmartLogger gainsLogger;
+
     public int pidSlot = 0;
 
     public double kP = 0;
@@ -14,7 +18,6 @@ public class PIDGainsProfile {
     public double kA = 0;
     public double kV = 0;
     public double kG = 0;
-
 
     public double maxAcceleration = Double.POSITIVE_INFINITY;
     public double maxVelocity = Double.POSITIVE_INFINITY;
@@ -35,7 +38,9 @@ public class PIDGainsProfile {
 
     public boolean useSmartMotion = false;
 
-    public PIDGainsProfile() {}
+    public PIDGainsProfile() {
+        SendableRegistry.add(this, "PIDGainsProfile", 1);
+    }
 
     public PIDGainsProfile setP(double gain) {
         kP = gain;
@@ -241,5 +246,39 @@ public class PIDGainsProfile {
             pidCtrl.enableContinuousInput(continuousMin, continuousMax);
         }
         return pidCtrl;
+    }
+
+    public void logAsPIDController(String name) {
+        this.gainsLogger = new SmartLogger(name).initialize();
+
+        this.gainsLogger.log("kP", kP);
+        this.gainsLogger.log("kI", kI);
+        this.gainsLogger.log("kD", kD);
+    }
+
+    public void logAsProfiledPIDController() {
+
+    }
+
+    public PIDGainsProfile fromLoggedPIDController() {
+        this.setP(gainsLogger.getEntry("kP").getDouble(kP));
+        this.setI(gainsLogger.getEntry("kI").getDouble(kI));
+        this.setD(gainsLogger.getEntry("kD").getDouble(kD));
+        return this;
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("PIDGainsProfile");
+        builder.addDoubleProperty("p", this::getP, this::setP);
+        builder.addDoubleProperty("i", this::getI, this::setI);
+        builder.addDoubleProperty("d", this::getD, this::setD);
+        builder.addDoubleProperty("f", this::getFF, this::setFF);
+        builder.addDoubleProperty("s", this::getS, this::setS);
+        builder.addDoubleProperty("a", this::getA, this::setA);
+        builder.addDoubleProperty("v", this::getV, this::setV);
+        builder.addDoubleProperty("g", this::getG, this::setG);
+        builder.addDoubleProperty("maxVelocity", this::getMaxVelocity, this::setMaxVelocity);
+        builder.addDoubleProperty("maxAccel", this::getMaxAcceleration, this::setMaxAcceleration);
     }
 }

@@ -45,9 +45,8 @@ public class Robot extends LoggedRobot {
         ));
 
         this.robotContainer = new RobotContainer(!DriverStation.isFMSAttached());
-        this.robotContainer.getInitCommand(MODE);
-
-        FIELD.logField(robotContainer.logToShuffleboard());
+        
+        FIELD.logToShuffleboard(robotContainer.logToShuffleboard());
     }
 
     /**
@@ -79,7 +78,7 @@ public class Robot extends LoggedRobot {
     @Override
     public void disabledInit() {
         MODE = MatchMode.DISABLED;
-        this.robotContainer.getInitCommand(MODE);
+        this.robotContainer.runSubsystemsInit(MODE);
     }
 
     @Override
@@ -115,7 +114,7 @@ public class Robot extends LoggedRobot {
         }
 
         MODE = MatchMode.TELEOP;
-        this.robotContainer.getInitCommand(MODE);
+        this.robotContainer.runSubsystemsInit(MODE);
     }
 
     /** This function is called periodically during operator control. */
@@ -127,7 +126,7 @@ public class Robot extends LoggedRobot {
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
         MODE = MatchMode.TEST;
-        this.robotContainer.getInitCommand(MODE);
+        this.robotContainer.runSubsystemsInit(MODE);
     }
 
     /** This function is called periodically during test mode. */

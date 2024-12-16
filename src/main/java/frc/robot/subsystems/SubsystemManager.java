@@ -36,15 +36,13 @@ public class SubsystemManager extends SubsystemBase {
         }, subs);
     }
 
-    public Command onInitCommand(MatchMode mode) {
+    public void onInit(MatchMode mode) {
         NewtonSubsystem[] subs = new NewtonSubsystem[activeSubystems.size()];
         for (int i = 0; i < activeSubystems.size(); i++) {
             subs[i] = activeSubystems.get(i);
         }
 
-        return Commands.runOnce(() -> {
-            activeSubystems.forEach(s -> s.onInit(mode));
-        }, subs);
+        activeSubystems.forEach(s -> s.onInit(mode));
     }
 
     @Override
